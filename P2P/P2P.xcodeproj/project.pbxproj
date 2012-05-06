@@ -1,0 +1,450 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5F7943A01556F93C0029732E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F79439F1556F93C0029732E /* Cocoa.framework */; };
+		5F7943AA1556F93C0029732E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943A81556F93C0029732E /* InfoPlist.strings */; };
+		5F7943AC1556F93C0029732E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943AB1556F93C0029732E /* main.m */; };
+		5F7943B01556F93C0029732E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943AE1556F93C0029732E /* Credits.rtf */; };
+		5F7943B31556F93C0029732E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943B21556F93C0029732E /* AppDelegate.m */; };
+		5F7943B61556F93C0029732E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943B41556F93C0029732E /* MainMenu.xib */; };
+		5F7943BE1556F93C0029732E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7943BD1556F93C0029732E /* SenTestingKit.framework */; };
+		5F7943BF1556F93D0029732E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F79439F1556F93C0029732E /* Cocoa.framework */; };
+		5F7943C71556F93D0029732E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943C51556F93D0029732E /* InfoPlist.strings */; };
+		5F7943CA1556F93D0029732E /* P2PTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943C91556F93D0029732E /* P2PTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5F7943C01556F93D0029732E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F7943921556F93C0029732E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F79439A1556F93C0029732E;
+			remoteInfo = P2P;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5F79439B1556F93C0029732E /* P2P.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P2P.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F79439F1556F93C0029732E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5F7943A21556F93C0029732E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		5F7943A31556F93C0029732E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5F7943A41556F93C0029732E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5F7943A71556F93C0029732E /* P2P-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P-Info.plist"; sourceTree = "<group>"; };
+		5F7943A91556F93C0029732E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F7943AB1556F93C0029732E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5F7943AD1556F93C0029732E /* P2P-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2P-Prefix.pch"; sourceTree = "<group>"; };
+		5F7943AF1556F93C0029732E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		5F7943B11556F93C0029732E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5F7943B21556F93C0029732E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5F7943B51556F93C0029732E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		5F7943BC1556F93C0029732E /* P2PTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = P2PTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F7943BD1556F93C0029732E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		5F7943C41556F93D0029732E /* P2PTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PTests-Info.plist"; sourceTree = "<group>"; };
+		5F7943C61556F93D0029732E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F7943C81556F93D0029732E /* P2PTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PTests.h; sourceTree = "<group>"; };
+		5F7943C91556F93D0029732E /* P2PTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5F7943981556F93C0029732E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943A01556F93C0029732E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7943B81556F93C0029732E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943BE1556F93C0029732E /* SenTestingKit.framework in Frameworks */,
+				5F7943BF1556F93D0029732E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5F7943901556F93C0029732E = {
+			isa = PBXGroup;
+			children = (
+				5F7943A51556F93C0029732E /* P2P */,
+				5F7943C21556F93D0029732E /* P2PTests */,
+				5F79439E1556F93C0029732E /* Frameworks */,
+				5F79439C1556F93C0029732E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5F79439C1556F93C0029732E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F79439B1556F93C0029732E /* P2P.app */,
+				5F7943BC1556F93C0029732E /* P2PTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5F79439E1556F93C0029732E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5F79439F1556F93C0029732E /* Cocoa.framework */,
+				5F7943BD1556F93C0029732E /* SenTestingKit.framework */,
+				5F7943A11556F93C0029732E /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F7943A11556F93C0029732E /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5F7943A21556F93C0029732E /* AppKit.framework */,
+				5F7943A31556F93C0029732E /* CoreData.framework */,
+				5F7943A41556F93C0029732E /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		5F7943A51556F93C0029732E /* P2P */ = {
+			isa = PBXGroup;
+			children = (
+				5F7943B11556F93C0029732E /* AppDelegate.h */,
+				5F7943B21556F93C0029732E /* AppDelegate.m */,
+				5F7943B41556F93C0029732E /* MainMenu.xib */,
+				5F7943A61556F93C0029732E /* Supporting Files */,
+			);
+			path = P2P;
+			sourceTree = "<group>";
+		};
+		5F7943A61556F93C0029732E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5F7943A71556F93C0029732E /* P2P-Info.plist */,
+				5F7943A81556F93C0029732E /* InfoPlist.strings */,
+				5F7943AB1556F93C0029732E /* main.m */,
+				5F7943AD1556F93C0029732E /* P2P-Prefix.pch */,
+				5F7943AE1556F93C0029732E /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5F7943C21556F93D0029732E /* P2PTests */ = {
+			isa = PBXGroup;
+			children = (
+				5F7943C81556F93D0029732E /* P2PTests.h */,
+				5F7943C91556F93D0029732E /* P2PTests.m */,
+				5F7943C31556F93D0029732E /* Supporting Files */,
+			);
+			path = P2PTests;
+			sourceTree = "<group>";
+		};
+		5F7943C31556F93D0029732E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5F7943C41556F93D0029732E /* P2PTests-Info.plist */,
+				5F7943C51556F93D0029732E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5F79439A1556F93C0029732E /* P2P */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F7943CD1556F93D0029732E /* Build configuration list for PBXNativeTarget "P2P" */;
+			buildPhases = (
+				5F7943971556F93C0029732E /* Sources */,
+				5F7943981556F93C0029732E /* Frameworks */,
+				5F7943991556F93C0029732E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = P2P;
+			productName = P2P;
+			productReference = 5F79439B1556F93C0029732E /* P2P.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5F7943BB1556F93C0029732E /* P2PTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F7943D01556F93D0029732E /* Build configuration list for PBXNativeTarget "P2PTests" */;
+			buildPhases = (
+				5F7943B71556F93C0029732E /* Sources */,
+				5F7943B81556F93C0029732E /* Frameworks */,
+				5F7943B91556F93C0029732E /* Resources */,
+				5F7943BA1556F93C0029732E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5F7943C11556F93D0029732E /* PBXTargetDependency */,
+			);
+			name = P2PTests;
+			productName = P2PTests;
+			productReference = 5F7943BC1556F93C0029732E /* P2PTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5F7943921556F93C0029732E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 5F7943951556F93C0029732E /* Build configuration list for PBXProject "P2P" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5F7943901556F93C0029732E;
+			productRefGroup = 5F79439C1556F93C0029732E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5F79439A1556F93C0029732E /* P2P */,
+				5F7943BB1556F93C0029732E /* P2PTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5F7943991556F93C0029732E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943AA1556F93C0029732E /* InfoPlist.strings in Resources */,
+				5F7943B01556F93C0029732E /* Credits.rtf in Resources */,
+				5F7943B61556F93C0029732E /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7943B91556F93C0029732E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943C71556F93D0029732E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5F7943BA1556F93C0029732E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5F7943971556F93C0029732E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943AC1556F93C0029732E /* main.m in Sources */,
+				5F7943B31556F93C0029732E /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7943B71556F93C0029732E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7943CA1556F93D0029732E /* P2PTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5F7943C11556F93D0029732E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F79439A1556F93C0029732E /* P2P */;
+			targetProxy = 5F7943C01556F93D0029732E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5F7943A81556F93C0029732E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F7943A91556F93C0029732E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5F7943AE1556F93C0029732E /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F7943AF1556F93C0029732E /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		5F7943B41556F93C0029732E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F7943B51556F93C0029732E /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		5F7943C51556F93D0029732E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F7943C61556F93D0029732E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5F7943CB1556F93D0029732E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5F7943CC1556F93D0029732E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5F7943CE1556F93D0029732E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P/P2P-Prefix.pch";
+				INFOPLIST_FILE = "P2P/P2P-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		5F7943CF1556F93D0029732E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P/P2P-Prefix.pch";
+				INFOPLIST_FILE = "P2P/P2P-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		5F7943D11556F93D0029732E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2P.app/Contents/MacOS/P2P";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P/P2P-Prefix.pch";
+				INFOPLIST_FILE = "P2PTests/P2PTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		5F7943D21556F93D0029732E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2P.app/Contents/MacOS/P2P";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P/P2P-Prefix.pch";
+				INFOPLIST_FILE = "P2PTests/P2PTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5F7943951556F93C0029732E /* Build configuration list for PBXProject "P2P" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F7943CB1556F93D0029732E /* Debug */,
+				5F7943CC1556F93D0029732E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F7943CD1556F93D0029732E /* Build configuration list for PBXNativeTarget "P2P" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F7943CE1556F93D0029732E /* Debug */,
+				5F7943CF1556F93D0029732E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5F7943D01556F93D0029732E /* Build configuration list for PBXNativeTarget "P2PTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F7943D11556F93D0029732E /* Debug */,
+				5F7943D21556F93D0029732E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5F7943921556F93C0029732E /* Project object */;
+}
