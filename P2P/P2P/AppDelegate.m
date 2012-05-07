@@ -11,6 +11,10 @@
 #import "Peer.h"
 #import "libServerSocket.h"
 
+#import <sys/socket.h>
+#import <netinet/in.h> //internet domain stuff
+#import <netdb.h> //server info
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -30,6 +34,35 @@
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:self withObject:nil];
     
 }
+
+#pragma mark -
+#pragma mark functions for downlaoding files
+
+
+-(void)findFilesInIp:(NSString*)ip {
+    
+    NSInputStream *in;
+    NSOutputStream *out;
+    
+    int port = [self findPeerWithIp:ip].port; 
+    
+    [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port+2 inputStream:&in outputStream:&out];
+    
+    
+    [in open];
+    [out open];
+    
+    NSString *inString  = [self readNSStringFromInputStream:in];
+    NSLog(inString);
+    
+    [self sendNSString:@"pdf" toOutputStream:out];
+    
+    //jordiC stuff
+    
+
+}
+
+
 
 #pragma mark -
 #pragma mark handle query server request
@@ -77,17 +110,30 @@
     
     int response = [[self readNSStringFromSocket:[socket intValue]] intValue]-1;
     
-    [self sendFile:[NSString stringWithFormat:@"%@%@",downloadFolderPath,[searchedFiles objectAtIndex:response]] toIp:@"peer ip"];
+    [self sendFile:[NSString stringWithFormat:@"%@%@",downloadFolderPath,[searchedFiles objectAtIndex:response]] 
+              toSocket:[socket intValue]];
     
     close([socket intValue]);
     
 }
 
--(void)sendFile:(NSString *)path toIp:(NSString*)ip {
+-(void)sendFile:(NSString *)path toSocket:(int)socket {
+    
+    uint32_t len;
+    struct sockaddr_in sin;
+    
+    len = sizeof(sin);
+    
+    if (0 != getpeername(socket,(struct sockaddr*) &sin, (socklen_t*)&len)) printf("caca");
+    printf("\n%d\n",sin.sin_addr.s_addr);
+    
+    
+    NSString *dir = [self ipToNSString:sin.sin_addr.s_addr];
+    int port = [self findPeerWithIp:dir].port;
     
     NSOutputStream *out;
     
-    [Connection qNetworkAdditions_getStreamsToHostNamed:@"127.0.0.1" port:LOCAL_PORT+2 inputStream:NULL outputStream:&out];
+    [Connection qNetworkAdditions_getStreamsToHostNamed:dir port:port+2 inputStream:NULL outputStream:&out];
     
     [out open];
     
@@ -100,6 +146,7 @@
     while (size > 0) {
         size -= [out write:&buff[0] maxLength:size];
     }
+    
 }
 
 
@@ -240,6 +287,24 @@
     
 }
 
+-(NSString*)readNSStringFromInputStream:(NSInputStream*)inputStream {
+    
+    uint8_t tmp = 0;
+    uint8_t buff[1024];
+    
+    int count = 0;
+    
+    while (tmp != '\n'){
+        if ([inputStream read:&tmp maxLength:1] > 0){
+            buff[count++] = tmp;
+        }
+    }
+    buff[count-1]='\0';
+    
+    return [NSString stringWithCString:(char*)buff encoding:NSStringEncodingConversionAllowLossy];
+    
+}
+
 -(void)sendNSString:(NSString*)string toSocket:(int)socket {
     
     uint8_t buff[1024];
@@ -247,6 +312,43 @@
     write(socket, &buff, [string length]);
     
 }
+
+
+-(void)sendNSString:(NSString*)string toOutputStream:(NSOutputStream*)OutputStream {
+    
+    uint8_t buff[1024];
+    [string getCString:(char*)&buff[0] maxLength:1024 encoding:NSStringEncodingConversionAllowLossy];
+    [OutputStream write:&buff[0] maxLength:[string length]];
+    
+}
+
+-(NSString*)ipToNSString:(uint32_t)ip {
+    
+    return [NSString stringWithFormat:@"%d.%d.%d.%d",
+            (ip&0x000000FF),
+            ((ip>>8)&0x0000FF),
+            ((ip>>16)&0x00FF),
+            ((ip>>24))];
+    
+    
+    
+}
+
+#pragma mark -
+#pragma mark peer list functions
+
+
+-(Peer*)findPeerWithIp:(NSString*)ip {
+
+    for (Peer *p in ipList) {
+        if ([p.ip compare:ip] == NSOrderedSame) {
+            return p;
+        }
+    }
+
+    return nil;
+}
+
 
 
 @end
