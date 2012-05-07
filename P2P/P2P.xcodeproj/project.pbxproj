@@ -19,6 +19,7 @@
 		5F7943C71556F93D0029732E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943C51556F93D0029732E /* InfoPlist.strings */; };
 		5F7943CA1556F93D0029732E /* P2PTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943C91556F93D0029732E /* P2PTests.m */; };
 		5F7943D51556FA430029732E /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943D41556FA430029732E /* Connection.m */; };
+		5F8DBF541557BF0800F760F7 /* libServerSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DBF531557BF0800F760F7 /* libServerSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		5F7943C91556F93D0029732E /* P2PTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PTests.m; sourceTree = "<group>"; };
 		5F7943D31556FA430029732E /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		5F7943D41556FA430029732E /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		5F8DBF521557BF0800F760F7 /* libServerSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libServerSocket.h; sourceTree = "<group>"; };
+		5F8DBF531557BF0800F760F7 /* libServerSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = libServerSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,7 @@
 		5F7943A51556F93C0029732E /* P2P */ = {
 			isa = PBXGroup;
 			children = (
+				5F8DBF561557BF0D00F760F7 /* Server */,
 				5F7943D31556FA430029732E /* Connection.h */,
 				5F7943D41556FA430029732E /* Connection.m */,
 				5F7943B11556F93C0029732E /* AppDelegate.h */,
@@ -161,6 +165,15 @@
 				5F7943C51556F93D0029732E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5F8DBF561557BF0D00F760F7 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				5F8DBF521557BF0800F760F7 /* libServerSocket.h */,
+				5F8DBF531557BF0800F760F7 /* libServerSocket.m */,
+			);
+			name = Server;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +287,7 @@
 				5F7943B31556F93C0029732E /* AppDelegate.m in Sources */,
 				5F7943D51556FA430029732E /* Connection.m in Sources */,
 				5F26FD38155729B400107E86 /* Peer.m in Sources */,
+				5F8DBF541557BF0800F760F7 /* libServerSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

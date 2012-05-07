@@ -23,12 +23,12 @@
     
 }
 
-+(Peer*)newPeerWithFromCArray:(uint8_t*)ipC port:(uint8_t*)portC portLength:(int)portLength{
++(Peer*)newPeerWithFromCArray:(uint8_t*)ipC port:(uint8_t*)portC {
     
     Peer *peer = [Peer new];
     
-    NSString *ip = [NSString stringWithCharacters:(unsigned short*)ipC length:15];
-    NSString *port = [NSString stringWithCharacters:(unsigned short*)portC length:portLength];
+    NSString *ip = [NSString stringWithCString:(char*)ipC encoding:NSStringEncodingConversionAllowLossy];
+    NSString *port = [NSString stringWithCString:(char*)portC encoding:NSStringEncodingConversionAllowLossy];    
     
     peer.ip = ip;
     peer.port = [port integerValue];
@@ -38,7 +38,8 @@
 
 -(NSString*)stringFormat {
     
-    return [NSString  stringWithFormat:@"%s:%d\n",_ip,_port];
+
+    return [NSString stringWithFormat:@"%@:%d\n",_ip,_port];
     
 }
 
