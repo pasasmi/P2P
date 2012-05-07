@@ -16,7 +16,7 @@
 }
 
 +(Peer*)newPeerWithIp:(NSString*)ip port:(int)port;
-+(Peer*)newPeerWithFromCArray:(uint8_t*)ipC port:(uint8_t*)portC ;
++(Peer*)newPeerFromCArray:(uint8_t*)ipC port:(uint8_t*)portC ;
 -(NSString*)stringFormat ;
 
 @property  NSString *ip;

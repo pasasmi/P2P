@@ -23,7 +23,7 @@
     
 }
 
-+(Peer*)newPeerWithFromCArray:(uint8_t*)ipC port:(uint8_t*)portC {
++(Peer*)newPeerFromCArray:(uint8_t*)ipC port:(uint8_t*)portC {
     
     Peer *peer = [Peer new];
     

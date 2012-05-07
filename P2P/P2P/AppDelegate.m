@@ -11,6 +11,8 @@
 #import "Peer.h"
 #import "libServerSocket.h"
 
+#import <stdio.h>
+#import <stdlib.h>
 #import <sys/socket.h>
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
@@ -29,17 +31,19 @@
     
     printf("starting application");
     ipList = [NSMutableArray new];
-    //[self startConnection];
-    //[NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:self withObject:nil];
+    
+    //the three threads of the server
+    [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:self withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:self withObject:nil];
     
 }
 
 #pragma mark -
-#pragma mark functions for downlaoding files
+#pragma mark functions for reuesting files
 
 
--(void)findFilesInIp:(NSString*)ip {
+-(NSArray*)findFiles:(NSString*)file serverIp:(NSString*)ip {
     
     NSInputStream *in;
     NSOutputStream *out;
@@ -51,21 +55,58 @@
     
     [in open];
     [out open];
+        
+    [self sendNSString:file toOutputStream:out];
     
-    NSString *inString  = [self readNSStringFromInputStream:in];
-    NSLog(inString);
+    NSMutableArray *files = [NSMutableArray new];
     
-    [self sendNSString:@"pdf" toOutputStream:out];
+    while ([in streamStatus] != NSStreamStatusClosed) {
+        [files addObject:[self readNSStringFromInputStream:in]];
+    }
     
-    //jordiC stuff
-    
+    return files;
 
+}
+
+#pragma mark -
+#pragma mark functions for downlaoding file
+
+-(void)requestFile:(NSString*)file serverIp:(NSString*)ip{
+    
+    int port = [self findPeerWithIp:ip].port+2;
+    
+    NSInputStream *in;
+    NSOutputStream *out;
+    
+    [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port inputStream:&in outputStream:&out];
+    
+    
+    [in open];
+    [out open];
+    
+    [self sendNSString:file toOutputStream:out];
+    
+    NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:  
+                                    [NSString stringWithFormat:@"Downloads/%@",file]]; 
+
+    
+    FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
+    uint8_t buff[1024];
+    int count = 0;
+        
+    while ([out streamStatus] != NSStreamStatusClosed) {
+        count = [in read:&buff[0] maxLength:1024];
+        fputs((char*)&buff, downladFile);
+    }
+    
+    [in close];
+    [out close];
 }
 
 
 
 #pragma mark -
-#pragma mark handle query server request
+#pragma mark handle peer query request
 
 -(void)startQueryServer {
     
@@ -94,58 +135,68 @@
     NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:  @"Downloads/"]; 
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *files = [fileManager contentsOfDirectoryAtPath:downloadFolderPath error:nil];
-    NSMutableArray *searchedFiles = [NSMutableArray new];
     
-    int count = 1;
     for (NSString *file in files){
         if ([file rangeOfString:search].location != NSNotFound) {
-            [self sendNSString:[NSString stringWithFormat:@"%d %@\n",count,file] 
+            [self sendNSString:file
                       toSocket:[socket intValue]];
-            [searchedFiles addObject:file];
-            count++;
         }
     }
-    
-    [self sendNSString:@"Select response number to download: " toSocket:[socket intValue]];
-    
-    int response = [[self readNSStringFromSocket:[socket intValue]] intValue]-1;
-    
-    [self sendFile:[NSString stringWithFormat:@"%@%@",downloadFolderPath,[searchedFiles objectAtIndex:response]] 
-              toSocket:[socket intValue]];
+        
     
     close([socket intValue]);
     
 }
 
--(void)sendFile:(NSString *)path toSocket:(int)socket {
+#pragma mark -
+#pragma mark handle peer download request
+
+-(void)startDownloadServer {
     
-    uint32_t len;
-    struct sockaddr_in sin;
+    int listenSocket = createListenSocket(NETWORK_SOCKET, STREAM, LOCAL_PORT+2);
     
-    len = sizeof(sin);
+    if(listenSocket <= 0)
+        printf("ERROR: Failed to create QueryServerSocket\n");
+	
+	while (true) {
+        int connection = createConnectionSocket(listenSocket);
+        if(connection <= 0)
+			printf("Error establishing connection\n");
+		else{
+            [NSThread detachNewThreadSelector:@selector(newPeerQueryRequest:) toTarget:self withObject:[NSNumber numberWithInt:connection]];
+		}
+    }
     
-    if (0 != getpeername(socket,(struct sockaddr*) &sin, (socklen_t*)&len)) printf("caca");
-    printf("\n%d\n",sin.sin_addr.s_addr);
+}
+
+-(void)sendFileToSocket:(NSNumber*)socket {
     
     
-    NSString *dir = [self ipToNSString:sin.sin_addr.s_addr];
-    int port = [self findPeerWithIp:dir].port;
     
-    NSOutputStream *out;
     
-    [Connection qNetworkAdditions_getStreamsToHostNamed:dir port:port+2 inputStream:NULL outputStream:&out];
+    NSString *fileName = [self readNSStringFromSocket:[socket intValue]]; 
     
-    [out open];
+    NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:
+                                    [NSString stringWithFormat:@"Downloads/%@",fileName]];
     
-    NSData *file = [NSData dataWithContentsOfFile:path];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:downloadFolderPath]){
+        //handle the error
+        return;
+    }
+
+    
+    NSData *file = [NSData dataWithContentsOfFile:downloadFolderPath];
     uint8_t buff[[file length]];
     unsigned int size = [file length]; 
     
     [file getBytes:&buff length:[file length]];
     
     while (size > 0) {
-        size -= [out write:&buff[0] maxLength:size];
+        size -= write([socket intValue], &buff, size);
     }
+    
+    close([socket intValue]);
     
 }
 
@@ -153,7 +204,7 @@
 
 
 #pragma mark -
-#pragma mark peer IP list request
+#pragma mark handle peer IP list request
 
 -(void)startPeerListServer{
     
@@ -201,7 +252,7 @@
         [self sendNSString:[[ipList objectAtIndex:i] stringFormat] toSocket:[socket intValue]];
     }
     
-    [ipList addObject:[Peer newPeerWithFromCArray:ipTmp port:port]];
+    [ipList addObject:[Peer newPeerFromCArray:ipTmp port:port]];
     
     close([socket intValue]);
 }
@@ -210,12 +261,18 @@
 #pragma mark -
 #pragma mark request for a IP list of the peer
 
--(void)startConnection {
+-(void)startConnectionWithIP:(NSString *)ip {
+    
+    [self startConnectionWithIP:ip withPort:[self findPeerWithIp:ip].port];
+    
+}
+
+-(void)startConnectionWithIP:(NSString *)ip withPort:(int)port {
     
     NSInputStream *in;
     NSOutputStream *out;
     
-    [Connection qNetworkAdditions_getStreamsToHostNamed:@"127.0.0.1" port:LOCAL_PORT inputStream:&in outputStream:&out];
+    [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port inputStream:&in outputStream:&out];
     
     
     [in open];
@@ -240,7 +297,7 @@
     int startPortNumber = 0;
     //xxx.xxx.xxx.xxx:yyyyy
     uint8_t ipTmp[16];
-    uint8_t port[5];
+    uint8_t portTmp[5];
     
     while ([in streamStatus] == 2) {
         
@@ -251,13 +308,13 @@
                     ipTmp[count]='\0';
                 }
                 else if (startPortNumber != -1)
-                    port[(count++)-startPortNumber]=tmp;
+                    portTmp[(count++)-startPortNumber]=tmp;
                 else 
                     ipTmp[count++]=tmp;
             }
         }
-        port[count-startPortNumber]= '\0';
-        [ipList addObject:[Peer newPeerWithFromCArray:ipTmp port:port]];        
+        portTmp[count-startPortNumber]= '\0';
+        [ipList addObject:[Peer newPeerFromCArray:ipTmp port:portTmp]];        
         tmp = 0;
         count = 0;
         startPortNumber = 0;
@@ -322,7 +379,16 @@
     
 }
 
--(NSString*)ipToNSString:(uint32_t)ip {
+
+-(NSString*)socketIPToNSString:(int)socket {
+    
+    uint32_t len;
+    struct sockaddr_in sin;
+    
+    len = sizeof(sin);
+    
+    if (0 != getpeername(socket,(struct sockaddr*) &sin, (socklen_t*)&len)) printf("caca");
+    uint32_t ip = sin.sin_addr.s_addr;
     
     return [NSString stringWithFormat:@"%d.%d.%d.%d",
             (ip&0x000000FF),
