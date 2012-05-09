@@ -35,13 +35,13 @@
 #pragma mark -
 #pragma mark request for a IP list of the peer
 
--(void)rquestIPListWithIP:(NSString *)ip {
+-(void)rquestIPListWithIP:(NSString *)ip local:(BOOL)local {
     
-    [self rquestIPListWithIP:ip withPort:[Peer findPeerWithIp:ip inArrary:ipList].port ];
+    [self rquestIPListWithIP:ip withPort:[Peer findPeerWithIp:ip inArrary:ipList].port local:local];
     
 }
 
--(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port {
+-(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local{
     
     NSInputStream *in;
     NSOutputStream *out;
@@ -57,12 +57,16 @@
     
     uint8_t buff[128];
     
-    NSString *localDir = [NATPMP getPublicIp];
+    NSString *localDir;
+    if (!local)
+        localDir = [NATPMP getPublicIp];
+    else
+        localDir = [Connection getLocalIp];
+    
     localDir = [localDir stringByAppendingFormat:@":%d\n",localPort];
     
     [localDir getCString:(char*)&buff[0] maxLength:128 encoding:NSStringEncodingConversionAllowLossy];
     
-    printf("%s",buff);
     [out write:buff maxLength:[localDir length]];
     
     //reciving ip list of the other side.

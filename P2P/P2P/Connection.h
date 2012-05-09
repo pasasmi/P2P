@@ -22,5 +22,8 @@
 +(NSString*)readNSStringFromInputStream:(NSInputStream*)inputStream;
 +(NSString*)readNSStringFromSocket:(int)socket;
 +(NSString*)intIPToNSString:(int)ip;
++(unsigned int)getIPIntFromString:(NSString*)ipStr;
+
++(NSString*)getLocalIp;
 
 @end

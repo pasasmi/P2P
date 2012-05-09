@@ -16,8 +16,8 @@
 
 +(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list;
 
--(void)rquestIPListWithIP:(NSString *)ip ;
--(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port ;
+-(void)rquestIPListWithIP:(NSString *)ip local:(BOOL)local;
+-(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local;
 -(NSArray*)findFiles:(NSString*)file serverIp:(NSString*)ip ;
 -(void)requestFile:(NSString*)file serverIp:(NSString*)ip;
 

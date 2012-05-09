@@ -29,7 +29,7 @@
 	}
 
 	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_addr.s_addr = [NATPMP getIPIntFromString:[NATPMP getGatewayIp]];
+	serverAddress.sin_addr.s_addr = [Connection getIPIntFromString:[NATPMP getGatewayIp]];
 	serverAddress.sin_port = htons(serverPort);
 	
 	char msg[] = {0,0};  // For now, this is the message we will send. 
@@ -37,7 +37,7 @@
 	
 	if (sendto(socketDescriptor, msg, strlen(msg), 0, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) { 
 		printf("Could not send data to the server. \n"); 
-		exit(1); 
+        return @"";
 	}
     
     
@@ -60,7 +60,7 @@
     
     return [Connection intIPToNSString:*dir];
     
-    
+
 }
 
 +(NSString*)getGatewayIp {
@@ -102,22 +102,57 @@
     
 }
 
-+(unsigned int)getIPIntFromString:(NSString*)ipStr{
+
++(BOOL)openPort:(uint16_t)port {
     
     
-    NSArray *parts = [ipStr componentsSeparatedByString:@"."];
+    int socketDescriptor; 					
+	struct sockaddr_in serverAddress; 		
+	uint16_t serverPort = 5351; 	
+	
+	if ((socketDescriptor = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+		printf("Problem getting public ip. \n"); 
+        return FALSE;
+	}
     
-    unsigned int ip = 
-    ([[parts objectAtIndex:3] intValue] << 24)
-    + ([[parts objectAtIndex:2] intValue] << 16)
-    + ([[parts objectAtIndex:1] intValue] << 8)
-    + [[parts objectAtIndex:0] intValue];
+	serverAddress.sin_family = AF_INET;
+	serverAddress.sin_addr.s_addr = [Connection getIPIntFromString:[NATPMP getGatewayIp]];
+	serverAddress.sin_port = htons(serverPort);
+	
     
-    return ip;
+    
+	char msg[] = {0,2,0,0,(char)*(&port),(char)*(&port+1),(char)*(&port),(char)*(&port+1),0,1,0,0};  // For now, this is the message we will send. 
+	printf("We will send the message: \"%s\" to the server. \n", msg); 
+	
+	if (sendto(socketDescriptor, msg, strlen(msg), 0, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) { 
+		printf("Could not send data to the server. \n"); 
+        return FALSE;
+	}
+    
+    
+	unsigned int msgSize = 100; // the max receivable size is msgSize. We should have this number larger than the max amount of data that we can receive. For now, this doesn't matter. 
+	struct sockaddr_in clientAddress; 
+	socklen_t clientAddressLength; 
+	char msgR[msgSize];  // msg received will be stored here. 
+    
+    clientAddressLength = sizeof(clientAddress); 
+    memset(msgR, 0, msgSize);  // intialize msg to zero. 
+    
+    printf("waiting for socket");
+    if (recvfrom(socketDescriptor, msgR, msgSize, 0, (struct sockaddr *)&clientAddress, &clientAddressLength) < 0) { 
+        
+        printf("An error occured while receiving data... Program is terminating. "); 
+		return FALSE;
+    }
+    
+    uint16_t *dir = (uint16_t*)&msgR[2];
+
+    printf("\nresult = %u\n",(uint16_t)msg[4]);
+    
+    return TRUE;
+    
     
 }
-
-
 
 
 
