@@ -8,11 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Connection : NSStream
+@interface Connection : NSObject
 
 + (void)qNetworkAdditions_getStreamsToHostNamed:(NSString *)hostName
                                            port:(NSInteger)port
                                     inputStream:(out NSInputStream **)inputStreamPtr
                                    outputStream:(out NSOutputStream **)outputStreamPtr;
+
+
++(NSString*)socketIPToNSString:(int)socket;
++(void)sendNSString:(NSString*)string toOutputStream:(NSOutputStream*)OutputStream;
++(void)sendNSString:(NSString*)string toSocket:(int)socket;
++(NSString*)readNSStringFromInputStream:(NSInputStream*)inputStream;
++(NSString*)readNSStringFromSocket:(int)socket;
++(NSString*)intIPToNSString:(int)ip;
 
 @end

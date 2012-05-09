@@ -19,6 +19,8 @@
 +(Peer*)newPeerFromCArray:(uint8_t*)ipC port:(uint8_t*)portC ;
 -(NSString*)stringFormat ;
 
++(Peer*)findPeerWithIp:(NSString*)ip inArrary:(NSArray*)ipList;
+
 @property  NSString *ip;
 @property  int port;
 

@@ -30,6 +30,7 @@
     NSString *ip = [NSString stringWithCString:(char*)ipC encoding:NSStringEncodingConversionAllowLossy];
     NSString *port = [NSString stringWithCString:(char*)portC encoding:NSStringEncodingConversionAllowLossy];    
     
+    
     peer.ip = ip;
     peer.port = [port integerValue];
     return peer;
@@ -41,6 +42,17 @@
 
     return [NSString stringWithFormat:@"%@:%d\n",_ip,_port];
     
+}
+
++(Peer*)findPeerWithIp:(NSString*)ip inArrary:(NSArray*)ipList {
+    
+    for (Peer *p in ipList) {
+        if ([p.ip compare:ip] == NSOrderedSame) {
+            return p;
+        }
+    }
+    
+    return nil;
 }
 
 
