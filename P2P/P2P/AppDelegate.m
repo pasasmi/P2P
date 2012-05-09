@@ -43,7 +43,8 @@ NSMutableArray *ipList;
     
     [ipList addObject:[Peer newPeerWithIp:REMOTE_IP port:REMOTE_PORT]];
 
-    NSLog([NATPMP getPublicIp]);
+
+    [client requ
     
     //the three threads of the server
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
