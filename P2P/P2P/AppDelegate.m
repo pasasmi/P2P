@@ -122,6 +122,7 @@ NSDictionary *pref;
 	if([openDialog runModal] == NSOKButton)
 		dirPath = [[openDialog URL]absoluteString];
     
+    [_folderDownloadsPath setTitle:dirPath];
 }
 
 
