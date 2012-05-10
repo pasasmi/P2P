@@ -27,7 +27,6 @@
 @synthesize localPortField = _localPortField;
 @synthesize remoteIPField = _remoteIPField;
 @synthesize remoteNodeField = _remoteNodeField;
-@synthesize saveSettingsButton = _saveSettingsButton;
 @synthesize prefPopover = _prefPopover;
 @synthesize preferencesMenuButton = _preferencesMenuButton;
 @synthesize downloadsTable = _downloadsTable;
