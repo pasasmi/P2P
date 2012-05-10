@@ -23,6 +23,7 @@
 		5F7943D51556FA430029732E /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943D41556FA430029732E /* Connection.m */; };
 		5F8DBF541557BF0800F760F7 /* libServerSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DBF531557BF0800F760F7 /* libServerSocket.m */; };
 		5FA0E0FE155AB57C00D8EAD6 /* NATPMP.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */; };
+		5FC1B52F155BCA9000D74673 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FC1B52E155BCA9000D74673 /* Preferences.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,8 +66,9 @@
 		5F7943D41556FA430029732E /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		5F8DBF521557BF0800F760F7 /* libServerSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libServerSocket.h; sourceTree = "<group>"; };
 		5F8DBF531557BF0800F760F7 /* libServerSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = libServerSocket.m; sourceTree = "<group>"; };
-		5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NATPMP.h; sourceTree = "<group>"; };
+		5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NATPMP.h; sourceTree = "<group>"; };
 		5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NATPMP.m; sourceTree = "<group>"; };
+		5FC1B52E155BCA9000D74673 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preferences.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				5F7943AB1556F93C0029732E /* main.m */,
 				5F7943AD1556F93C0029732E /* P2P-Prefix.pch */,
 				5F7943AE1556F93C0029732E /* Credits.rtf */,
+				5FC1B52E155BCA9000D74673 /* Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				5F7943AA1556F93C0029732E /* InfoPlist.strings in Resources */,
 				5F7943B01556F93C0029732E /* Credits.rtf in Resources */,
 				5F7943B61556F93C0029732E /* MainMenu.xib in Resources */,
+				5FC1B52F155BCA9000D74673 /* Preferences.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

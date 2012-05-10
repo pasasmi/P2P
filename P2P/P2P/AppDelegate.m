@@ -24,6 +24,7 @@
 
 @synthesize window = _window;
 
+
 #define LOCAL_PORT 8888
 #define REMOTE_IP @"localhost"
 #define REMOTE_PORT 7777
@@ -37,22 +38,34 @@ NSMutableArray *ipList;
 {
     // Insert code here to initialize your application
     
-    ipList = [NSMutableArray new];
-    server = [Server newServerWithPort:LOCAL_PORT andIpList:ipList];
-    client = [Client newClientWithPort:LOCAL_PORT andIpList:ipList];
-    
-    [ipList addObject:[Peer newPeerWithIp:REMOTE_IP port:REMOTE_PORT]];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
+    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:path];
 
-    [client rquestIPListWithIP:REMOTE_IP withPort:8888 local:YES];
+    NSString *localPath = [dic objectForKey:@"downloadPath"];
+    NSString *remoteIp = [dic objectForKey:@"initRemoteIP"];
+    int remotePort = [[dic objectForKey:@"initRemotePort"] intValue];
+    int localPort = [[dic objectForKey:@"initLocalPort"] intValue];
+    
+    ipList = [NSMutableArray new];
+    [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
+    
+    server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
+    client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
+    
+    
+    
+    
+    
     
     //the three threads of the server
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
     
-    
-    
+
 }
+
 
 
 

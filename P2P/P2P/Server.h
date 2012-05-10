@@ -12,6 +12,7 @@
     
     int localPort;
     NSMutableArray *ipList;
+    NSString *path;
     
 }
 
@@ -19,9 +20,10 @@
 -(void)startDownloadServer;
 -(void)startQueryServer;
 
-+(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list;
++(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path;
 
 @property int localPort;
 @property NSMutableArray* ipList;
+@property NSString* path;
 
 @end

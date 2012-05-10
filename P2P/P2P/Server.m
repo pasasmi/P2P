@@ -21,13 +21,14 @@
 
 @synthesize localPort;
 @synthesize ipList;
+@synthesize path;
 
-
-+(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list {
++(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path {
     
     Server *server  = [Server new];
     server.ipList = list;
     server.localPort = port;
+    server.path = path;
     return server;
     
 }
@@ -115,8 +116,8 @@
     
     NSString *fileName = [Connection readNSStringFromSocket:[socket intValue]]; 
     
-    NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:
-                                    [NSString stringWithFormat:@"Downloads/%@",fileName]];
+    NSString *downloadFolderPath = [path stringByAppendingPathComponent:
+                                    [NSString stringWithFormat:@"/%@",fileName]];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:downloadFolderPath]){
@@ -166,13 +167,12 @@
         
     NSString *search = [Connection readNSStringFromSocket:[socket intValue]];
     
-    NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:  @"Downloads/"]; 
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *files = [fileManager subpathsAtPath:downloadFolderPath];
+    NSArray *files = [fileManager subpathsAtPath:path];
     
     
     for (NSString *file in files){
-        NSString *fullPath = [downloadFolderPath stringByAppendingPathComponent:file];
+        NSString *fullPath = [path stringByAppendingPathComponent:file];
         if([file rangeOfString:search].location != NSNotFound && 
            ![[[fileManager attributesOfItemAtPath:fullPath error:NULL] objectForKey:NSFileType] isEqualToString:@"NSFileTypeDirectory"])
         {

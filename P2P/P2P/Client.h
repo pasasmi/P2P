@@ -12,9 +12,10 @@
     
     NSMutableArray *ipList;
     int localPort;
+    NSString *path;
 }
 
-+(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list;
++(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path;
 
 -(void)rquestIPListWithIP:(NSString *)ip local:(BOOL)local;
 -(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local;
@@ -23,5 +24,6 @@
 
 @property NSMutableArray *ipList;
 @property int localPort;
+@property NSString *path;
 
 @end

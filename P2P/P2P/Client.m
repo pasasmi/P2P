@@ -22,12 +22,14 @@
 
 @synthesize ipList;
 @synthesize localPort;
+@synthesize path;
 
-+(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list{
++(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString *)path{
     
     Client *client  = [Client new];
     client.ipList = list;
     client.localPort = port;
+    client.path = path;
     return client;
     
 }
@@ -125,8 +127,8 @@
     
     [Connection sendNSString:[file stringByAppendingString:@"\n"] toOutputStream:out];
     
-    NSString *downloadFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:  
-                                    [NSString stringWithFormat:@"Downloads/%@",file]]; 
+    NSString *downloadFolderPath = [path stringByAppendingPathComponent:  
+                                    [NSString stringWithFormat:@"/%@",file]]; 
     
     
     FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
