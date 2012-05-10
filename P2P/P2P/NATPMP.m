@@ -111,7 +111,7 @@
 	uint16_t serverPort = 5351; 	
 	
 	if ((socketDescriptor = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		printf("Problem getting public ip. \n"); 
+		printf("Could not get socket descriptor. \n"); 
         return FALSE;
 	}
     
@@ -119,9 +119,9 @@
 	serverAddress.sin_addr.s_addr = [Connection getIPIntFromString:[NATPMP getGatewayIp]];
 	serverAddress.sin_port = htons(serverPort);
 	
+    uint16_t upPort = port>>8;
     
-    
-	char msg[] = {0,2,0,0,(char)*(&port),(char)*(&port+1),(char)*(&port),(char)*(&port+1),0,1,0,0};  // For now, this is the message we will send. 
+	char msg[] = {0,2,0,0,(char)upPort,(char)port,(char)upPort,(char)port,0,1,0,0};  // For now, this is the message we will send. 
 	printf("We will send the message: \"%s\" to the server. \n", msg); 
 	
 	if (sendto(socketDescriptor, msg, strlen(msg), 0, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) { 
@@ -130,7 +130,7 @@
 	}
     
     
-	unsigned int msgSize = 100; // the max receivable size is msgSize. We should have this number larger than the max amount of data that we can receive. For now, this doesn't matter. 
+	unsigned int msgSize = 50; // the max receivable size is msgSize. We should have this number larger than the max amount of data that we can receive. For now, this doesn't matter. 
 	struct sockaddr_in clientAddress; 
 	socklen_t clientAddressLength; 
 	char msgR[msgSize];  // msg received will be stored here. 
@@ -138,23 +138,31 @@
     clientAddressLength = sizeof(clientAddress); 
     memset(msgR, 0, msgSize);  // intialize msg to zero. 
     
-    printf("waiting for socket");
+    printf("Waiting for socket...\n");
     if (recvfrom(socketDescriptor, msgR, msgSize, 0, (struct sockaddr *)&clientAddress, &clientAddressLength) < 0) { 
         
-        printf("An error occured while receiving data... Program is terminating. "); 
+        printf("An error occured while receiving data... Program is terminating.\n"); 
 		return FALSE;
     }
     
-    uint16_t *dir = (uint16_t*)&msgR[2];
+    printf("Request:\nVersion = %u\n",(uint16_t)msg[0]);
+	printf("OP Code = %u\n",(uint16_t)msg[1]);
+	printf("Reserved = %u\n",(uint16_t)*(&msg[2]));
+	printf("Private port = %u\n",(uint16_t)*(&msg[4]));
+	printf("Public port = %u\n",(uint16_t)*(&msg[6]));
+	printf("Lifetime = %u\n\n",(uint)*(&msg[8]));
 
-    printf("\nresult = %u\n",(uint16_t)msg[4]);
+	
+	
+	printf("Response:\nVersion = %u\n",(uint16_t)msgR[0]);
+	printf("OP Code = %u\n",(uint16_t)msgR[1]);
+	printf("Result = %u\n",(uint16_t)*(&msgR[2]));
+	printf("Seconds since initialized = %u\n",(uint)*(&msgR[4]));
+	printf("Private port = %u\n",(uint16_t)*(&msgR[8]));
+	printf("Public port = %u\n",(uint16_t)*(&msgR[10]));
+	printf("Lifetime = %u\n",(uint)*(&msgR[12]));
     
     return TRUE;
-    
-    
 }
-
-
-
 
 @end
