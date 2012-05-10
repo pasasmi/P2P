@@ -113,8 +113,15 @@ NSDictionary *pref;
 	[openDialog setCanChooseDirectories:TRUE];
 	[openDialog setAllowsMultipleSelection:FALSE];
 	
-	if([openDialog runModal] == NSOKButton)
-		dirPath = [[openDialog URL]absoluteString];
+	if([openDialog runModal] == NSOKButton){
+		dirPath = [[openDialog directoryURL]absoluteString];
+        NSArray *path = [dirPath pathComponents];
+        NSRange range = {2,[path count]-2};
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
+        dirPath = [NSString pathWithComponents:[path objectsAtIndexes:indexSet]];
+        dirPath = [@"/" stringByAppendingString:dirPath];
+        dirPath = [dirPath stringByAppendingString:@"/"];
+    }
     
     [_folderDownloadsPath setTitle:dirPath];
 }
