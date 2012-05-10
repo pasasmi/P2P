@@ -148,7 +148,7 @@ NSDictionary *pref;
 
 -(void) windowWillClose:(NSNotification *)notification
 {
-    [NSApp terminate: nil];
+	[NSApp terminate: nil];
 }
 
 #pragma mark -
