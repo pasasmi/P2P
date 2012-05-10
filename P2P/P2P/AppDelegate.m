@@ -121,8 +121,6 @@ NSMutableArray *ipList;
     
 }
 
-- (IBAction)saveSettingsButtonClick:(id)sender {
-}
 
 - (void)windowWillMove:(NSNotification *)notification
 {
@@ -138,7 +136,7 @@ NSMutableArray *ipList;
 
 -(void) windowWillClose:(NSNotification *)notification
 {
-		
+	[NSApp terminate: nil];
 }
 
 #pragma mark -
