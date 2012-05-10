@@ -12,12 +12,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 
-
-//menu:
-@property (weak) IBOutlet NSMenuItem *preferencesMenuButton;
-- (IBAction)preferencesCall:(id)sender;
-
-
 //search tab:
 @property (weak) IBOutlet NSTextFieldCell *searchField;
 @property (weak) IBOutlet NSButtonCell *searchButton;
