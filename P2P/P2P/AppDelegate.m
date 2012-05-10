@@ -39,9 +39,6 @@
 
 @synthesize window = _window;
 
-#define LOCAL_PORT 8888
-#define REMOTE_IP @"localhost"
-#define REMOTE_PORT 7777
 
 
 Server *server;
@@ -160,31 +157,32 @@ NSMutableArray *sizes;
 
 - (IBAction)searchButtonClick:(id)sender
 {
-    if (files == nil) files = [NSMutableArray new];
+    
+    files = [NSMutableArray new];
+    sizes = [NSMutableArray new];
+    
     
     NSString *find = _searchField.title;
     
-    if([find compare:@""] == NSOrderedSame){
-		[_searchingLabel setHidden:FALSE];
-		[_progressBar startAnimation:nil];
-        
-		for (Peer *peer in ipList) {
-            [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
-
-        }
+    if(! [find compare:@""] == NSOrderedSame){
+        [NSThread detachNewThreadSelector:@selector(findFilesWithString:) toTarget:self withObject:find];
     }
-	
-	[_progressBar stopAnimation:nil];
-	[_searchingLabel setHidden:TRUE];
 }
 
 -(void)findFilesWithString:(NSString*)find {
+	[_searchingLabel setHidden:FALSE];
+	[_progressBar startAnimation:nil];
+	
     for (Peer *peer in ipList) {
         [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
         for(NSString *s in files) [sizes addObject:s];
         [_searchTable reloadData];
     }
+	
+	[_searchingLabel setHidden:TRUE];
+	[_progressBar stopAnimation:nil];
 }
+
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -197,15 +195,14 @@ NSMutableArray *sizes;
     return 0;
 }
 
--(void)tableView:(NSTableView *)tableView 
-  setObjectValue:(id)object 
-  forTableColumn:(NSTableColumn *)tableColumn 
-			 row:(NSInteger)row
+
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    
-    if (tableView == _searchTable) {
-        if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
-            [object setTextField:[files objectAtIndex:row]];
+    if (aTableView == _searchTable) {
+        NSCell *cell = [NSCell new];
+        if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
+            [cell setTitle:[files objectAtIndex:rowIndex]];
         }
         else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
             [cell setTitle:[sizes objectAtIndex:rowIndex]];
