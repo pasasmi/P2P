@@ -26,7 +26,7 @@
 @synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
 @synthesize localPortField = _localPortField;
 @synthesize remoteIPField = _remoteIPField;
-@synthesize remoteNodeField = _remoteNodeField;
+@synthesize remotePortField = _remotePortField;
 @synthesize prefPopover = _prefPopover;
 @synthesize preferencesMenuButton = _preferencesMenuButton;
 @synthesize downloadsTable = _downloadsTable;
@@ -49,6 +49,7 @@
 Server *server;
 Client *client;
 NSMutableArray *ipList;
+NSDictionary *pref;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -56,12 +57,12 @@ NSMutableArray *ipList;
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
-    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:path];
+    pref = [NSDictionary dictionaryWithContentsOfFile:path];
 
-    NSString *localPath = [dic objectForKey:@"downloadPath"];
-    NSString *remoteIp = [dic objectForKey:@"initRemoteIP"];
-    int remotePort = [[dic objectForKey:@"initRemotePort"] intValue];
-    int localPort = [[dic objectForKey:@"initLocalPort"] intValue];
+    NSString *localPath = [pref objectForKey:@"downloadPath"];
+    NSString *remoteIp = [pref objectForKey:@"initRemoteIP"];
+    int remotePort = [[pref objectForKey:@"initRemotePort"] intValue];
+    int localPort = [[pref objectForKey:@"initLocalPort"] intValue];
     
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
@@ -69,7 +70,7 @@ NSMutableArray *ipList;
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
     
-    [self setPreferencesVariables:dic];
+    [self setPreferencesVariables];
     
     
     
@@ -82,7 +83,7 @@ NSMutableArray *ipList;
 
 }
 
--(void)setPreferencesVariables:(NSDictionary*)pref {
+-(void)setPreferencesVariables {
     
     [_folderDownloadsPath setTitle:[pref objectForKey:@"downloadPath"]];
     
@@ -121,8 +122,6 @@ NSMutableArray *ipList;
     
 }
 
-- (IBAction)saveSettingsButtonClick:(id)sender {
-}
 
 - (void)windowWillMove:(NSNotification *)notification
 {
@@ -132,12 +131,23 @@ NSMutableArray *ipList;
 
 -(void)closePopoverAndSavePreferences {
     
+    [pref setValue:_folderDownloadsPath.title forKey:@"downloadPath"];
+    [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];
+//    [pref setValue:.title forKey:@"initRemotePort"];
+    [pref setValue:_localPortField.title forKey:@"initLocalPort"];
+    
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
+
+    [pref writeToFile:path atomically:YES];
     
     [_prefPopover close];
 }
 
-
-
+-(void) windowWillClose:(NSNotification *)notification
+{
+	[NSApp terminate: nil];
+}
 
 #pragma mark -
 #pragma mark table view delegate methods and finding files
