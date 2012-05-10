@@ -37,9 +37,15 @@
 @property (weak) IBOutlet NSPopover *prefPopover;
 @property (weak) IBOutlet NSTextFieldCell *folderDownloadsPath;
 @property (weak) IBOutlet NSButtonCell *chooseDownloadsPathButton;
+@property (weak) IBOutlet NSTextFieldCell *localPortField;
+@property (weak) IBOutlet NSTextFieldCell *remoteIPField;
+@property (weak) IBOutlet NSTextFieldCell *remoteNodeField;
+@property (weak) IBOutlet NSButtonCell *saveSettingsButton;
+
 
 - (IBAction)prefPopupClick:(id)sender;
 - (IBAction)chooseDownloadsFolder:(id)sender;
+- (IBAction)saveSettingsButtonClick:(id)sender;
 
 
 

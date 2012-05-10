@@ -24,6 +24,10 @@
 @implementation AppDelegate
 @synthesize folderDownloadsPath = _folderDownloadsPath;
 @synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
+@synthesize localPortField = _localPortField;
+@synthesize remoteIPField = _remoteIPField;
+@synthesize remoteNodeField = _remoteNodeField;
+@synthesize saveSettingsButton = _saveSettingsButton;
 @synthesize prefPopover = _prefPopover;
 @synthesize preferencesMenuButton = _preferencesMenuButton;
 @synthesize downloadsTable = _downloadsTable;
@@ -116,6 +120,9 @@ NSMutableArray *ipList;
 		dirPath = [[openDialog URL]absoluteString];
 	NSLog(dirPath);
 
+}
+
+- (IBAction)saveSettingsButtonClick:(id)sender {
 }
 
 - (void)windowWillMove:(NSNotification *)notification
