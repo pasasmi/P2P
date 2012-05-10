@@ -65,7 +65,7 @@
 		5F7943D41556FA430029732E /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		5F8DBF521557BF0800F760F7 /* libServerSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libServerSocket.h; sourceTree = "<group>"; };
 		5F8DBF531557BF0800F760F7 /* libServerSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = libServerSocket.m; sourceTree = "<group>"; };
-		5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NATPMP.h; sourceTree = "<group>"; };
+		5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NATPMP.h; sourceTree = "<group>"; };
 		5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NATPMP.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

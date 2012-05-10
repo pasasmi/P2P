@@ -20,7 +20,20 @@
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
 
+
 @implementation AppDelegate
+@synthesize folderDownloadsPath = _folderDownloadsPath;
+@synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
+@synthesize prefPopover = _prefPopover;
+@synthesize preferencesMenuButton = _preferencesMenuButton;
+@synthesize downloadsTable = _downloadsTable;
+@synthesize searchField = _searchField;
+@synthesize searchButton = _searchButton;
+@synthesize progressBar = _progressBar;
+@synthesize searchingLabel = _searchingLabel;
+@synthesize downloadButton = _downloadButton;
+@synthesize searchTable = _searchTable;
+
 
 @synthesize window = _window;
 
@@ -36,7 +49,7 @@ NSMutableArray *ipList;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    
+   /* 
     ipList = [NSMutableArray new];
     server = [Server newServerWithPort:LOCAL_PORT andIpList:ipList];
     client = [Client newClientWithPort:LOCAL_PORT andIpList:ipList];
@@ -49,15 +62,52 @@ NSMutableArray *ipList;
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
-    
+    */
     
     
 }
 
 
+- (IBAction)searchButtonClick:(id)sender
+{
+}
 
+- (IBAction)downloadButtonClick:(id)sender
+{
+}
 
+- (IBAction)preferencesCall:(id)sender {
+}
 
+- (IBAction)prefPopupClick:(id)sender
+{
+	if(![_prefPopover isShown])
+		[_prefPopover showRelativeToRect:[sender bounds] 
+								  ofView:sender 
+						   preferredEdge:NSMaxYEdge];
+	
+	else [_prefPopover close];
+}
 
+- (IBAction)chooseDownloadsFolder:(id)sender
+{
+	NSString *dirPath;
+	NSOpenPanel* openDialog = [NSOpenPanel openPanel];
+	
+	[openDialog setCanChooseFiles:FALSE];
+	[openDialog setCanCreateDirectories:TRUE];
+	[openDialog setCanChooseDirectories:TRUE];
+	[openDialog setAllowsMultipleSelection:FALSE];
+	
+	if([openDialog runModal] == NSOKButton)
+		dirPath = [[openDialog URL]absoluteString];
+	NSLog(dirPath);
 
+}
+
+- (void)windowWillMove:(NSNotification *)notification
+{
+	[_prefPopover close];
+	
+}
 @end
