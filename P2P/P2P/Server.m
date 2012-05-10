@@ -126,14 +126,14 @@
     }
     
     
-    NSData *file = [NSData dataWithContentsOfFile:downloadFolderPath];
-    uint8_t buff[[file length]];
-    unsigned int size = [file length]; 
-    
-    [file getBytes:&buff length:[file length]];
-    
-    while (size > 0) {
-        size -= write([socket intValue], &buff, size);
+
+    FILE *file = fopen([downloadFolderPath UTF8String], "r");
+
+    uint8_t buff;
+
+    while (!feof(file)) {
+        buff = fgetc(file);
+        write([socket intValue],&buff,1);
     }
     
     close([socket intValue]);
@@ -166,7 +166,7 @@
 -(void)newPeerQueryRequest:(NSNumber*)socket {
         
     NSString *search = [Connection readNSStringFromSocket:[socket intValue]];
-    
+    NSLog(search);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *files = [fileManager subpathsAtPath:path];
     

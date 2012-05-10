@@ -68,6 +68,8 @@ NSDictionary *pref;
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
     
+    NSLog([[ipList objectAtIndex:0] stringFormat]);
+    
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
     
@@ -176,12 +178,19 @@ NSMutableArray *sizes;
 	[_searchingLabel setHidden:TRUE];
 }
 
+-(void)findFilesWithString:(NSString*)find {
+    for (Peer *peer in ipList) {
+        [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
+        for(NSString *s in files) [sizes addObject:s];
+        [_searchTable reloadData];
+    }
+}
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     
     if (tableView == _searchTable){
-        return [files count];            
+        return [files count];    
     }
     
 
@@ -198,9 +207,10 @@ NSMutableArray *sizes;
         if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
             [object setTextField:[files objectAtIndex:row]];
         }
-        else if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
-            [object setTextField:[sizes objectAtIndex:row]];
+        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
+            [cell setTitle:[sizes objectAtIndex:rowIndex]];
         }
+        return cell;
     }
     
 }
