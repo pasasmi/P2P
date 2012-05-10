@@ -20,8 +20,8 @@
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
 
-
 @implementation AppDelegate
+
 @synthesize folderDownloadsPath = _folderDownloadsPath;
 @synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
 @synthesize prefPopover = _prefPopover;
@@ -76,7 +76,6 @@ NSMutableArray *ipList;
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
     
-    
 
 }
 
@@ -115,7 +114,7 @@ NSMutableArray *ipList;
 	if([openDialog runModal] == NSOKButton)
 		dirPath = [[openDialog URL]absoluteString];
 	NSLog(dirPath);
-
+    
 }
 
 - (void)windowWillMove:(NSNotification *)notification
@@ -123,4 +122,9 @@ NSMutableArray *ipList;
 	[_prefPopover close];
 	
 }
+
+
+
+
+
 @end
