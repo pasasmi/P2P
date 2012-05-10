@@ -171,11 +171,13 @@
     NSArray *files = [fileManager subpathsAtPath:path];
     
     
+	NSLog(path);
     for (NSString *file in files){
         NSString *fullPath = [path stringByAppendingPathComponent:file];
         if([file rangeOfString:search].location != NSNotFound && 
            ![[[fileManager attributesOfItemAtPath:fullPath error:NULL] objectForKey:NSFileType] isEqualToString:@"NSFileTypeDirectory"])
         {
+			NSLog(search);
                 [Connection sendNSString:[file stringByAppendingString:@"\n"] toSocket:[socket intValue]];
         }
     }
