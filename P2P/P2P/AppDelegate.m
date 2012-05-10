@@ -147,6 +147,13 @@ NSDictionary *pref;
 	[NSApp terminate: nil];
 }
 
+-(void) windowWillEnterFullScreen:(NSNotification *)notification{
+    [self closePopoverAndSavePreferences];
+}
+-(void) windowWillExitFullScreen:(NSNotification *)notification{
+    [self closePopoverAndSavePreferences];
+}
+
 #pragma mark -
 #pragma mark table view delegate methods,finding files and downloading files
 

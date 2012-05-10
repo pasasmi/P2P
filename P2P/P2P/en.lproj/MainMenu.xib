@@ -610,7 +610,7 @@
 												<string key="NSFrame">{{396, 10}, {159, 32}}</string>
 												<reference key="NSSuperview" ref="13872879"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
+												<reference key="NSNextKeyView" ref="226638611"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="1029820635">
@@ -976,7 +976,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="819701594"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 1002}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{622, 432}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
@@ -1373,14 +1373,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">searchButtonClick:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="275276796"/>
-					</object>
-					<int key="connectionID">823</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">downloadButtonClick:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="1029820635"/>
@@ -1742,7 +1734,7 @@
 								<int key="contentType">3</int>
 								<reference key="containingView" ref="439893737"/>
 							</object>
-							<object class="IBNSLayoutConstraint" id="143114683">
+							<object class="IBNSLayoutConstraint" id="627056138">
 								<reference key="firstItem" ref="819701594"/>
 								<int key="firstAttribute">5</int>
 								<int key="relation">0</int>
@@ -2239,7 +2231,6 @@
 						<int key="objectID">591</int>
 						<reference key="object" ref="757120268"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="1042954316"/>
 							<reference ref="604791351"/>
 							<object class="IBNSLayoutConstraint" id="368259932">
 								<reference key="firstItem" ref="1042954316"/>
@@ -2321,6 +2312,7 @@
 								<int key="contentType">3</int>
 								<reference key="containingView" ref="757120268"/>
 							</object>
+							<reference ref="1042954316"/>
 						</array>
 						<reference key="parent" ref="13872879"/>
 					</object>
@@ -3396,7 +3388,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1519</int>
-						<reference key="object" ref="143114683"/>
+						<reference key="object" ref="627056138"/>
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3565,7 +3557,7 @@
 					<reference ref="520341938"/>
 					<reference ref="518987864"/>
 					<reference ref="125243796"/>
-					<reference ref="143114683"/>
+					<reference ref="627056138"/>
 					<reference ref="221429890"/>
 				</array>
 				<string key="372.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3691,7 +3683,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1527</int>
+			<int key="maxID">1528</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
