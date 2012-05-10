@@ -37,13 +37,13 @@
 #pragma mark -
 #pragma mark request for a IP list of the peer
 
--(void)rquestIPListWithIP:(NSString *)ip local:(BOOL)local {
+-(void)requestIPListWithIP:(NSString *)ip local:(BOOL)local {
     
-    [self rquestIPListWithIP:ip withPort:[Peer findPeerWithIp:ip inArrary:ipList].port local:local];
+    [self requestIPListWithIP:ip withPort:[Peer findPeerWithIp:ip inArrary:ipList].port local:local];
     
 }
 
--(void)rquestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local{
+-(void)requestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local{
     
     NSInputStream *in;
     NSOutputStream *out;
@@ -161,19 +161,26 @@
     
     int port = [Peer findPeerWithIp:ip inArrary:ipList].port; 
     
+    
     [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port+1 inputStream:&in outputStream:&out];
     
     
     [in open];
     [out open];
     
-    [Connection sendNSString:file toOutputStream:out];
+    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"try to connect");
+    
+    [Connection sendNSString:[file stringByAppendingString:@"\n"] toOutputStream:out];
     
     NSMutableArray *files = [NSMutableArray new];
     
     while ([in streamStatus] == NSStreamStatusOpen) {
-        [files addObject:[Connection readNSStringFromInputStream:in]];
+        NSString *rcv = [Connection readNSStringFromInputStream:in];
+        if (![rcv compare:@""] == NSOrderedSame){
+            [files addObject:rcv];
+        }
     }
+
     
     return files;
     

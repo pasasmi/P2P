@@ -40,10 +40,6 @@
 @synthesize window = _window;
 
 
-#define LOCAL_PORT 8888
-#define REMOTE_IP @"localhost"
-#define REMOTE_PORT 7777
-
 
 Server *server;
 Client *client;
@@ -66,18 +62,17 @@ NSDictionary *pref;
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
     
+    NSLog([[ipList objectAtIndex:0] stringFormat]);
+    
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
     
     [self setPreferencesVariables];
     
-    
-    
-    
     //the three threads of the server
-    //[NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
-    //[NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
-    //[NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
     
 
 }
@@ -161,38 +156,48 @@ NSMutableArray *sizes;
 - (IBAction)searchButtonClick:(id)sender
 {
     
-    if (files == nil) files = [NSMutableArray new];
+    files = [NSMutableArray new];
+    sizes = [NSMutableArray new];
+    
     
     NSString *find = _searchField.title;
     
-    if([find compare:@""] == NSOrderedSame){
-        for (Peer *peer in ipList) {
-            [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
-
-        }
+    if(! [find compare:@""] == NSOrderedSame){
+        [NSThread detachNewThreadSelector:@selector(findFilesWithString:) toTarget:self withObject:find];
     }
 }
 
+-(void)findFilesWithString:(NSString*)find {
+    for (Peer *peer in ipList) {
+        [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
+        for(NSString *s in files) [sizes addObject:s];
+        [_searchTable reloadData];
+    }
+}
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     
     if (tableView == _searchTable){
-        return [files count];            
+        return [files count];    
     }
     
 
     return 0;
 }
 
--(void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    
-    if (tableView == _searchTable) {
-        if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
-            [object setTextField:[files objectAtIndex:row]];
+
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if (aTableView == _searchTable) {
+        NSCell *cell = [NSCell new];
+        if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
+            [cell setTitle:[files objectAtIndex:rowIndex]];
         }
-        else if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
-            [object setTextField:[sizes objectAtIndex:row]];
+        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
+            [cell setTitle:[sizes objectAtIndex:rowIndex]];
         }
+        return cell;
     }
     
 }

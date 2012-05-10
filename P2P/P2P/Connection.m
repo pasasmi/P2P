@@ -79,11 +79,14 @@
     
     int count = 0;
     
-    while (tmp != '\n'){
+    while (tmp != '\n' && [inputStream streamStatus] == NSStreamStatusOpen){
         if ([inputStream read:&tmp maxLength:1] > 0){
             buff[count++] = tmp;
         }
     }
+    
+    if ([inputStream streamStatus] == NSStreamStatusClosed) return @"";
+    
     buff[count-1]='\0';
     
     return [NSString stringWithCString:(char*)buff encoding:NSStringEncodingConversionAllowLossy];
