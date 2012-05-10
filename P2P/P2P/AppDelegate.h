@@ -13,7 +13,6 @@
 @property (assign) IBOutlet NSWindow *window;
 
 
-
 //menu:
 @property (weak) IBOutlet NSMenuItem *preferencesMenuButton;
 - (IBAction)preferencesCall:(id)sender;
@@ -39,8 +38,7 @@
 @property (weak) IBOutlet NSButtonCell *chooseDownloadsPathButton;
 @property (weak) IBOutlet NSTextFieldCell *localPortField;
 @property (weak) IBOutlet NSTextFieldCell *remoteIPField;
-@property (weak) IBOutlet NSTextFieldCell *remoteNodeField;
-@property (weak) IBOutlet NSButtonCell *saveSettingsButton;
+@property (weak) IBOutlet NSTextFieldCell *remotePortField;
 
 
 - (IBAction)prefPopupClick:(id)sender;

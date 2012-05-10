@@ -26,8 +26,7 @@
 @synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
 @synthesize localPortField = _localPortField;
 @synthesize remoteIPField = _remoteIPField;
-@synthesize remoteNodeField = _remoteNodeField;
-@synthesize saveSettingsButton = _saveSettingsButton;
+@synthesize remotePortField = _remotePortField;
 @synthesize prefPopover = _prefPopover;
 @synthesize preferencesMenuButton = _preferencesMenuButton;
 @synthesize downloadsTable = _downloadsTable;
@@ -147,8 +146,10 @@ NSDictionary *pref;
     [_prefPopover close];
 }
 
-
-
+-(void) windowWillClose:(NSNotification *)notification
+{
+		
+}
 
 #pragma mark -
 #pragma mark table view delegate methods and finding files
