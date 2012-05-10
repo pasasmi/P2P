@@ -86,6 +86,9 @@ NSDictionary *pref;
 -(void)setPreferencesVariables {
     
     [_folderDownloadsPath setTitle:[pref objectForKey:@"downloadPath"]];
+    [_remoteIPField setTitle:[pref objectForKey:@"initRemoteIP"]];
+    [_remotePortField setTitle:[pref objectForKey:@"initRemotePort"]];
+    [_localPortField setTitle:[pref objectForKey:@"initLocalPort"]];
     
 }
 
@@ -135,7 +138,7 @@ NSDictionary *pref;
     
     [pref setValue:_folderDownloadsPath.title forKey:@"downloadPath"];
     [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];
-//    [pref setValue:.title forKey:@"initRemotePort"];
+    [pref setValue:_remotePortField.title forKey:@"initRemotePort"];
     [pref setValue:_localPortField.title forKey:@"initLocalPort"];
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
@@ -148,25 +151,53 @@ NSDictionary *pref;
 
 -(void) windowWillClose:(NSNotification *)notification
 {
-		
+    [NSApp terminate: nil];
 }
 
 #pragma mark -
-#pragma mark table view delegate methods and finding files
+#pragma mark table view delegate methods,finding files and downloading files
 
+NSMutableArray *files;
+NSMutableArray *sizes;
 
 - (IBAction)searchButtonClick:(id)sender
 {
+    
+    if (files == nil) files = [NSMutableArray new];
+    
     NSString *find = _searchField.title;
     
     if([find compare:@""] == NSOrderedSame){
         for (Peer *peer in ipList) {
-            [client findFiles:find serverIp:peer.ip]; 
+            [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
+
         }
     }
 }
 
 
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    
+    if (tableView == _searchTable){
+        return [files count];            
+    }
+    
+
+    return 0;
+}
+
+-(void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    
+    if (tableView == _searchTable) {
+        if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
+            [object setTextField:[files objectAtIndex:row]];
+        }
+        else if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
+            [object setTextField:[sizes objectAtIndex:row]];
+        }
+    }
+    
+}
 
 
 @end
