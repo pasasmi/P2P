@@ -38,7 +38,7 @@
 @synthesize window = _window;
 
 #define LOCAL_PORT 8888
-#define REMOTE_IP @"172.16.7.73"
+#define REMOTE_IP @"localhost"
 #define REMOTE_PORT 7777
 
 
@@ -56,7 +56,7 @@ NSMutableArray *ipList;
     
     [ipList addObject:[Peer newPeerWithIp:REMOTE_IP port:REMOTE_PORT]];
 
-    NSLog([NATPMP getPublicIp]);
+    [client rquestIPListWithIP:REMOTE_IP withPort:8888 local:YES];
     
     //the three threads of the server
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];

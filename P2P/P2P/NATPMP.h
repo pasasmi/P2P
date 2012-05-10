@@ -11,5 +11,7 @@
 @interface NATPMP : NSObject
 
 +(NSString*)getPublicIp;
++(NSString*)getGatewayIp;
++(BOOL)openPort:(uint16_t)port;
 
 @end

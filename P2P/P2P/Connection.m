@@ -137,5 +137,41 @@
             ((ip>>24))];
 }
 
++(unsigned int)getIPIntFromString:(NSString*)ipStr{
+    
+    
+    NSArray *parts = [ipStr componentsSeparatedByString:@"."];
+    
+    unsigned int ip = 
+    ([[parts objectAtIndex:3] intValue] << 24)
+    + ([[parts objectAtIndex:2] intValue] << 16)
+    + ([[parts objectAtIndex:1] intValue] << 8)
+    + [[parts objectAtIndex:0] intValue];
+    
+    return ip;
+    
+}
+
++(NSString*)getLocalIp {
+    
+    
+    
+    NSArray *addresses = [[NSHost currentHost] addresses];
+    NSString *stringAddress;
+    for (NSString *anAddress in addresses) {
+        if (![anAddress hasPrefix:@"127"] && [[anAddress componentsSeparatedByString:@"."] count] == 4) {
+            stringAddress = anAddress;
+            break;
+        }
+    }
+    
+    return  stringAddress;
+    
+}
+
+
+
+
+
 
 @end

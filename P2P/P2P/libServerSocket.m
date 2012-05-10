@@ -70,11 +70,11 @@ int createConnectionSocket(int listeningSocket)
 	 * */
 {
 	int connectionSocket;
-	int clientAddressSize;
+	socklen_t clientAddressSize;
 	struct sockaddr_in clientAddress;
 
 	clientAddressSize = sizeof(clientAddress);
-	connectionSocket = accept(listeningSocket, (struct socketAddress *) &clientAddress, &clientAddressSize);
+	connectionSocket = accept(listeningSocket, (struct sockaddr *) &clientAddress, &clientAddressSize);
 
 	return connectionSocket;
 }
