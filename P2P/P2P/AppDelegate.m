@@ -75,7 +75,7 @@ NSMutableArray *ipList;
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
-    */
+    
     
 
 }
