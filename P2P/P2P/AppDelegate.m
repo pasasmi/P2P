@@ -66,23 +66,25 @@ NSMutableArray *ipList;
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
     
-    
+    [self setPreferencesVariables:dic];
     
     
     
     
     //the three threads of the server
-    [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
+    //[NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
+    //[NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
+    //[NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
     
 
 }
 
-
-- (IBAction)searchButtonClick:(id)sender
-{
+-(void)setPreferencesVariables:(NSDictionary*)pref {
+    
+    [_folderDownloadsPath setTitle:[pref objectForKey:@"downloadPath"]];
+    
 }
+
 
 - (IBAction)downloadButtonClick:(id)sender
 {
@@ -98,7 +100,7 @@ NSMutableArray *ipList;
 								  ofView:sender 
 						   preferredEdge:NSMaxYEdge];
 	
-	else [_prefPopover close];
+	else [self closePopoverAndSavePreferences];
 }
 
 - (IBAction)chooseDownloadsFolder:(id)sender
@@ -113,16 +115,38 @@ NSMutableArray *ipList;
 	
 	if([openDialog runModal] == NSOKButton)
 		dirPath = [[openDialog URL]absoluteString];
-	NSLog(dirPath);
     
 }
 
 - (void)windowWillMove:(NSNotification *)notification
 {
-	[_prefPopover close];
+	[self closePopoverAndSavePreferences];
 	
 }
 
+-(void)closePopoverAndSavePreferences {
+    
+    
+    [_prefPopover close];
+}
+
+
+
+
+#pragma mark -
+#pragma mark table view delegate methods and finding files
+
+
+- (IBAction)searchButtonClick:(id)sender
+{
+    NSString *find = _searchField.title;
+    
+    if([find compare:@""] == NSOrderedSame){
+        for (Peer *peer in ipList) {
+            [client findFiles:find serverIp:peer.ip]; 
+        }
+    }
+}
 
 
 
