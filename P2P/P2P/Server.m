@@ -23,28 +23,59 @@
 @synthesize ipList;
 @synthesize path;
 
+NSThread *threads[3];
+
 +(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path {
     
     Server *server  = [Server new];
     server.ipList = list;
     server.localPort = port;
     server.path = path;
+   
     return server;
     
+}
+
+-(void)restartServer {
+    NSLog(@"server restarted");
+    
+    [self closeDownloadServer];
+    [self closePeerListServer];
+    [self closeQueryServer];
+    
+    [threads[0] cancel];
+    [threads[1] cancel];
+    [threads[2] cancel];
+    
+    [self startServer];
+}
+
+-(void)startServer {
+     NSLog(@"server started");
+    
+    threads[0] = [[NSThread new] initWithTarget:self selector:@selector(startPeerListServer) object:nil];
+    threads[1] = [[NSThread new] initWithTarget:self selector:@selector(startQueryServer) object:nil];
+    threads[2] = [[NSThread new] initWithTarget:self selector:@selector(startDownloadServer) object:nil];
+    
+    [threads[0] start];
+    [threads[1] start];
+    [threads[2] start];
 }
 
 #pragma mark -
 #pragma mark handle peer IP list request
 
+int peerSocket;
+
 -(void)startPeerListServer{
     
-    int listenSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort);
+    peerSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort);
     
-    if(listenSocket <= 0)
+    if(peerSocket <= 0)
         printf("ERROR: Failed to create PeerListServer\n");
 	
 	while (true) { 
-        int connection = createConnectionSocket(listenSocket);
+        int connection = createConnectionSocket(peerSocket);
         if(connection <= 0)
 			printf("Error establishing connection\n");
 		else{
@@ -52,6 +83,10 @@
 		}
     }
     
+}
+
+-(void)closePeerListServer{
+    close(peerSocket);
 }
 
 
@@ -91,15 +126,17 @@
 #pragma mark -
 #pragma mark handle peer download request
 
+int downloadSocket;
+
 -(void)startDownloadServer {
     
-    int listenSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+2);
+    downloadSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+2);
     
-    if(listenSocket <= 0)
+    if(downloadSocket <= 0)
         printf("ERROR: Failed to create QueryServerSocket\n");
 	
 	while (true) {
-        int connection = createConnectionSocket(listenSocket);
+        int connection = createConnectionSocket(downloadSocket);
         if(connection <= 0)
 			printf("Error establishing connection\n");
 		else{
@@ -107,6 +144,10 @@
 		}
     }
     
+}
+
+-(void)closeDownloadServer {
+    close(downloadSocket);
 }
 
 -(void)sendFileToSocket:(NSNumber*)socket {
@@ -126,11 +167,11 @@
     }
     
     
-
+    
     FILE *file = fopen([downloadFolderPath UTF8String], "r");
-
+    
     uint8_t buff;
-
+    
     while (!feof(file)) {
         buff = fgetc(file);
         write([socket intValue],&buff,1);
@@ -145,40 +186,42 @@
 #pragma mark -
 #pragma mark handle peer query request
 
+int querySocket;
+
 -(void)startQueryServer {
     
-    int listenSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+1);
+    querySocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+1);
     
-    if(listenSocket <= 0)
+    if(querySocket <= 0)
         printf("ERROR: Failed to create QueryServerSocket\n");
 	
 	while (true) {
-        int connection = createConnectionSocket(listenSocket);
+        int connection = createConnectionSocket(querySocket);
         if(connection <= 0)
 			printf("Error establishing connection\n");
 		else{
             [NSThread detachNewThreadSelector:@selector(newPeerQueryRequest:) toTarget:self withObject:[NSNumber numberWithInt:connection]];
 		}
     }
-    
+}
+
+-(void)closeQueryServer {
+    close(querySocket);
 }
 
 -(void)newPeerQueryRequest:(NSNumber*)socket {
-        
+    
     NSString *search = [Connection readNSStringFromSocket:[socket intValue]];
-    NSLog(search);
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *files = [fileManager subpathsAtPath:path];
     
     
-	NSLog(path);
     for (NSString *file in files){
         NSString *fullPath = [path stringByAppendingPathComponent:file];
         if([file rangeOfString:search].location != NSNotFound && 
            ![[[fileManager attributesOfItemAtPath:fullPath error:NULL] objectForKey:NSFileType] isEqualToString:@"NSFileTypeDirectory"])
         {
-			NSLog(search);
-                [Connection sendNSString:[file stringByAppendingString:@"\n"] toSocket:[socket intValue]];
+            [Connection sendNSString:[file stringByAppendingString:@"\n"] toSocket:[socket intValue]];
         }
     }
     

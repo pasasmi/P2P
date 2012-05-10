@@ -65,17 +65,13 @@ NSDictionary *pref;
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
     
-    NSLog([[ipList objectAtIndex:0] stringFormat]);
-    
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
     
     [self setPreferencesVariables];
     
     //the three threads of the server
-    [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
+    [server startServer];
 	
 }
 
@@ -125,6 +121,20 @@ NSDictionary *pref;
 
 -(void)closePopoverAndSavePreferences
 {
+    
+    if (![(NSString*)[pref objectForKey:@"downloadPath"] compare:_folderDownloadsPath.title] == NSOrderedSame){
+        server.path = _folderDownloadsPath.title;
+    }
+    if (![(NSString*)[pref objectForKey:@"initRemoteIP"] compare:_remoteIPField.title] == NSOrderedSame){
+        [ipList addObject:[Peer newPeerWithIp:_remotePortField.title port:[_remotePortField.title intValue]]];
+    }
+    else if (![(NSString*)[pref objectForKey:@"initRemotePort"] compare:_remotePortField.title] == NSOrderedSame){
+        [Peer findPeerWithIp:_remoteIPField.title inArrary:ipList].port = [_remotePortField.title intValue];
+    }
+    if (![(NSString*)[pref objectForKey:@"initLocalPort"] compare:_localPortField.title] == NSOrderedSame){
+        server.localPort = [_localPortField.title intValue];
+        [server restartServer];
+    }
     
     [pref setValue:_folderDownloadsPath.title forKey:@"downloadPath"];
     [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];

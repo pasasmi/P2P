@@ -21,6 +21,8 @@
 -(void)startQueryServer;
 
 +(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path;
+-(void)restartServer;
+-(void)startServer;
 
 @property int localPort;
 @property NSMutableArray* ipList;
