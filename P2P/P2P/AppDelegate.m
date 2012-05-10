@@ -39,7 +39,6 @@
 
 @synthesize window = _window;
 
-
 #define LOCAL_PORT 8888
 #define REMOTE_IP @"localhost"
 #define REMOTE_PORT 7777
@@ -50,6 +49,9 @@ Client *client;
 NSMutableArray *ipList;
 NSDictionary *pref;
 
+
+#pragma mark -
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
@@ -58,10 +60,10 @@ NSDictionary *pref;
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
     pref = [NSDictionary dictionaryWithContentsOfFile:path];
 
-    NSString *localPath = [pref objectForKey:@"downloadPath"];
-    NSString *remoteIp = [pref objectForKey:@"initRemoteIP"];
-    int remotePort = [[pref objectForKey:@"initRemotePort"] intValue];
-    int localPort = [[pref objectForKey:@"initLocalPort"] intValue];
+    NSString *localPath	= [pref objectForKey:@"downloadPath"];
+    NSString *remoteIp	= [pref objectForKey:@"initRemoteIP"];
+    int remotePort		= [[pref objectForKey:@"initRemotePort"] intValue];
+    int localPort		= [[pref objectForKey:@"initLocalPort"] intValue];
     
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
@@ -71,19 +73,15 @@ NSDictionary *pref;
     
     [self setPreferencesVariables];
     
-    
-    
-    
     //the three threads of the server
     [NSThread detachNewThreadSelector:@selector(startPeerListServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startQueryServer) toTarget:server withObject:nil];
     [NSThread detachNewThreadSelector:@selector(startDownloadServer) toTarget:server withObject:nil];
-    
-
+	
 }
 
--(void)setPreferencesVariables {
-    
+-(void)setPreferencesVariables 
+{
     [_folderDownloadsPath setTitle:[pref objectForKey:@"downloadPath"]];
     [_remoteIPField setTitle:[pref objectForKey:@"initRemoteIP"]];
     [_remotePortField setTitle:[pref objectForKey:@"initRemotePort"]];
@@ -91,13 +89,14 @@ NSDictionary *pref;
     
 }
 
+#pragma mark -
 
 - (IBAction)downloadButtonClick:(id)sender
 {
 }
 
-- (IBAction)preferencesCall:(id)sender {
-}
+#pragma mark -
+#pragma mark Preferences popup related methods
 
 - (IBAction)prefPopupClick:(id)sender
 {
@@ -125,14 +124,8 @@ NSDictionary *pref;
     [_folderDownloadsPath setTitle:dirPath];
 }
 
-
-- (void)windowWillMove:(NSNotification *)notification
+-(void)closePopoverAndSavePreferences
 {
-	[self closePopoverAndSavePreferences];
-	
-}
-
--(void)closePopoverAndSavePreferences {
     
     [pref setValue:_folderDownloadsPath.title forKey:@"downloadPath"];
     [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];
@@ -145,6 +138,11 @@ NSDictionary *pref;
     [pref writeToFile:path atomically:YES];
     
     [_prefPopover close];
+}
+
+- (void)windowWillMove:(NSNotification *)notification
+{
+	[self closePopoverAndSavePreferences];
 }
 
 -(void) windowWillClose:(NSNotification *)notification
@@ -160,21 +158,27 @@ NSMutableArray *sizes;
 
 - (IBAction)searchButtonClick:(id)sender
 {
-    
     if (files == nil) files = [NSMutableArray new];
     
     NSString *find = _searchField.title;
     
     if([find compare:@""] == NSOrderedSame){
-        for (Peer *peer in ipList) {
+		[_searchingLabel setHidden:FALSE];
+		[_progressBar startAnimation:nil];
+        
+		for (Peer *peer in ipList) {
             [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
 
         }
     }
+	
+	[_progressBar stopAnimation:nil];
+	[_searchingLabel setHidden:TRUE];
 }
 
 
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
     
     if (tableView == _searchTable){
         return [files count];            
@@ -184,7 +188,11 @@ NSMutableArray *sizes;
     return 0;
 }
 
--(void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+-(void)tableView:(NSTableView *)tableView 
+  setObjectValue:(id)object 
+  forTableColumn:(NSTableColumn *)tableColumn 
+			 row:(NSInteger)row
+{
     
     if (tableView == _searchTable) {
         if ([((NSCell*)(tableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){

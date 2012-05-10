@@ -16,7 +16,7 @@
 @property (weak) IBOutlet NSTextFieldCell *searchField;
 @property (weak) IBOutlet NSButtonCell *searchButton;
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
-@property (weak) IBOutlet NSTextFieldCell *searchingLabel;
+@property (weak) IBOutlet NSTextField *searchingLabel;
 @property (weak) IBOutlet NSButtonCell *downloadButton;
 @property (weak) IBOutlet NSTableView *searchTable;
 
@@ -37,7 +37,6 @@
 
 - (IBAction)prefPopupClick:(id)sender;
 - (IBAction)chooseDownloadsFolder:(id)sender;
-- (IBAction)saveSettingsButtonClick:(id)sender;
 
 
 
