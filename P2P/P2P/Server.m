@@ -16,6 +16,7 @@
 #import <sys/socket.h>
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
+#import <fcntl.h>
 
 #define CHUNKSIZE 512
 
@@ -176,6 +177,9 @@ int downloadSocket;
 	uint8_t buff[CHUNKSIZE];
 	int obtained;
 	
+	int set = 1;
+	setsockopt([socket intValue], SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));//disable signal on remote socket broken.
+	
 	while(!feof(file))
 	{
 		obtained = fread(buff, sizeof(uint8_t), CHUNKSIZE, file);
@@ -187,6 +191,7 @@ int downloadSocket;
 		if(write([socket intValue], &buff, obtained) < 0) break;
 	}
 	
+	fclose(file);
     close([socket intValue]);
     
 }
