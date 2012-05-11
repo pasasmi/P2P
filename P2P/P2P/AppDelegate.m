@@ -1,11 +1,23 @@
-//
-//  AppDelegate.m
-//  P2P
-//
-//  Created by Incomedia on 06/05/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+P2P is an academical application. It is a peer to peer fileshareing program.
+ 
+ Copyright (C) 2012	Jordi Bueno Dominguez, Jordi Chulia Benlloch, Pau Sastre Miguel
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+ 
+ 
 #import "AppDelegate.h"
 #import "Connection.h"
 #import "Peer.h"
@@ -281,10 +293,23 @@ volatile int32_t searchingThreadCount = 0;
 #pragma mark methods for the about sheet
 
 
-- (IBAction)openAbout:(id)sender {
+- (IBAction)openAbout:(id)sender
+{
     
+	/*
+	 Me parece muy cutre como queda el about este.
+	 Es por culpa de usar un NSAlert, que viene por defecto con el icono y un espacio para texto
+	 y DEBAJO es donde se pone el NSView, no se sustituye.
+	 
+	 Prefiero volver al dialogo de About original
+	 
+	 fdo: jorchube
+	 */
+	
+	
     NSAlert *alert = [NSAlert new];
     [alert setAlertStyle:NSInformationalAlertStyle];
+	[alert setMessageText:@"\n\nP2P is an academical peer-to-peer filesharing application."];
     [alert addButtonWithTitle:@"OK"];
     [alert setAlertStyle:NSWarningAlertStyle];
     
@@ -294,8 +319,6 @@ volatile int32_t searchingThreadCount = 0;
                       modalDelegate:self 
                      didEndSelector:nil 
                         contextInfo:nil];
-    
-    
 }
 
 
