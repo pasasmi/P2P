@@ -151,14 +151,20 @@ NSMutableArray *currentDownloads;
     
     FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
     uint8_t buff;
-    int speed = 0;
+
     
+    long timeInterVal = time(NULL)+1;
     
     while ([in streamStatus] == NSStreamStatusOpen) {
+
+        if (time(NULL)>timeInterVal) {
+            timeInterVal = time(NULL)+1; 
+            [self updateFileProperties:file];
+        } 
         
         if([in read:&buff maxLength:1] > 0){
             fputc(buff, downladFile);
-
+            file.progress++;
         }
     }
     fclose(downladFile);
@@ -169,7 +175,14 @@ NSMutableArray *currentDownloads;
     [downloadTable reloadData];
 }
 
+-(void)updateFileProperties:(DownloadEntry*)file {
+    
+    file.time ++;
 
+    file.speed = (file.progress / file.time);
+    
+    [downloadTable reloadData];
+}
 
 
 #pragma mark -
@@ -234,10 +247,28 @@ NSMutableArray *currentDownloads;
             [cell setTitle:((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).name];
         }
         else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Progress"] == NSOrderedSame){
-            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).progress]];
+            NSString *progressStr;
+            float progress = ((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).progress / 8;
+            if (progress > 1000000)
+                progressStr = [NSString stringWithFormat:@"%.1f MB",progress/1000000];
+            else if (progress > 1000)
+                progressStr = [NSString stringWithFormat:@"%.1f KB",progress/1000];
+            else
+                progressStr = [NSString stringWithFormat:@"%d B",progress];
+            
+            [cell setTitle:progressStr];
         }
         else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Speed"] == NSOrderedSame){
-            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).speed]];
+            NSString *speedStr;
+            float speed = ((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).speed;
+            if (speed > 1000000)
+                speedStr = [NSString stringWithFormat:@"%.1f Mb/s",speed/1000000];
+            else if (speed > 1000)
+                speedStr = [NSString stringWithFormat:@"%.1f Kb/s",speed/1000];
+            else
+                speedStr = [NSString stringWithFormat:@"%d b/s",speed];
+            
+            [cell setTitle:speedStr];
         }
         else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Total Size"] == NSOrderedSame){
             [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).total]];
@@ -245,6 +276,7 @@ NSMutableArray *currentDownloads;
         return cell;
     }
     
+    return NULL;
 }
 
 

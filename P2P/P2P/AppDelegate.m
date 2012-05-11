@@ -77,6 +77,8 @@ NSMutableArray *ipRequestedFile;
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
     client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath withDownloadTable:_downloadsTable];
     
+ 
+    
     [self setPreferencesVariables];
     
     //the three threads of the server
@@ -249,7 +251,7 @@ NSMutableArray *ipRequestedFile;
         }
         return cell;
     }
-    
+    return  NULL;
 }
 
 

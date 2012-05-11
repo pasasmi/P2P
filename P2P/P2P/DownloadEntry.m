@@ -16,6 +16,7 @@
 @synthesize progress;
 @synthesize speed;
 @synthesize total;
+@synthesize time;
 
 
 +(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString *)fPath withTotalSize:(int)size  withIP:(NSString*)ip{
@@ -28,6 +29,7 @@
     entry.progress = 0;
     entry.speed = 0;
     entry.total = size;
+    entry.time = 0;
     
     return entry;
 }
