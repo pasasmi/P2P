@@ -39,6 +39,7 @@
 @synthesize searchTable = _searchTable;
 
 
+@synthesize about = _about;
 @synthesize window = _window;
 
 
@@ -256,6 +257,37 @@ volatile int32_t searchingThreadCount = 0;
     }
     return  NULL;
 }
+
+
+
+#pragma mark -
+#pragma mark methods for the about sheet
+
+
+- (IBAction)openAbout:(id)sender {
+    
+    NSAlert *alert = [NSAlert new];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert addButtonWithTitle:@"OK"];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    
+    [alert setAccessoryView:_about];
+    
+    [alert beginSheetModalForWindow:_window 
+                      modalDelegate:self 
+                     didEndSelector:nil 
+                        contextInfo:nil];
+    
+    
+}
+
+
+
+
+
+
+
+
 
 
 @end

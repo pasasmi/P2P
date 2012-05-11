@@ -39,5 +39,9 @@
 - (IBAction)chooseDownloadsFolder:(id)sender;
 
 
+//about window
+@property (weak) IBOutlet NSView *about;
+- (IBAction)openAbout:(id)sender;
+
 
 @end

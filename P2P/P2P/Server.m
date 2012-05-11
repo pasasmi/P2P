@@ -75,8 +75,10 @@ int peerSocket;
     
     peerSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort);
     
-    if(peerSocket <= 0)
+    if(peerSocket <= 0){
         printf("ERROR: Failed to create PeerListServer\n");
+        usleep(1000000);
+    }
 	
 	while (true) { 
         int connection = createConnectionSocket(peerSocket);
@@ -141,8 +143,10 @@ int downloadSocket;
 	
 	while (true) {
         int connection = createConnectionSocket(downloadSocket);
-        if(connection <= 0)
+        if(connection <= 0){
 			printf("Error establishing connection\n");
+            usleep(1000000);
+        }
 		else{
             [NSThread detachNewThreadSelector:@selector(sendFileToSocket:) toTarget:self withObject:[NSNumber numberWithInt:connection]];
 		}
@@ -212,8 +216,10 @@ int querySocket;
 	
 	while (true) {
         int connection = createConnectionSocket(querySocket);
-        if(connection <= 0)
+        if(connection <= 0){
 			printf("Error establishing connection\n");
+            usleep(1000000);
+        }
 		else{
             [NSThread detachNewThreadSelector:@selector(newPeerQueryRequest:) toTarget:self withObject:[NSNumber numberWithInt:connection]];
 		}
