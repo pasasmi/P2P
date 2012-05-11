@@ -20,6 +20,7 @@
 #import <sys/socket.h>
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
+#import <libkern/OSAtomic.h>
 
 @implementation AppDelegate
 
@@ -53,6 +54,7 @@ NSMutableArray *filePath;
 NSMutableArray *sizes;
 NSMutableArray *ipRequestedFile;
 
+volatile int32_t* searchingThreadCount = 0;
 
 #pragma mark -
 
@@ -208,6 +210,7 @@ NSMutableArray *ipRequestedFile;
 }
 
 -(void)findFilesWithString:(NSString*)find {
+	OSAtomicIncrement32(searchingThreadCount);
 	[_searchingLabel setHidden:FALSE];
 	[_progressBar startAnimation:nil];
 	
@@ -219,8 +222,14 @@ NSMutableArray *ipRequestedFile;
         [_searchTable reloadData];
     }
 	
-	[_searchingLabel setHidden:TRUE];
-	[_progressBar stopAnimation:nil];
+	@synchronized(self)
+	{
+		if(OSAtomicDecrement32(searchingThreadCount) <= 0)
+		{
+			[_searchingLabel setHidden:TRUE];
+			[_progressBar stopAnimation:nil];
+		}
+	}
 }
 
 
