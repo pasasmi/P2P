@@ -188,6 +188,7 @@ NSMutableArray *currentDownloads;
 
 -(void)setFileEnded:(DownloadEntry*)file {
     file.finished = TRUE;
+    file.speed = 0;
 }
 
 
@@ -269,7 +270,9 @@ NSMutableArray *currentDownloads;
         else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Speed"] == NSOrderedSame){
             NSString *speedStr;
             float speed = ((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).speed;
-            if (speed > 1000000)
+            if (speed == 0) 
+                speedStr = @"";
+            else if (speed > 1000000)
                 speedStr = [NSString stringWithFormat:@"%.1f Mb/s",speed/1000000];
             else if (speed > 1000)
                 speedStr = [NSString stringWithFormat:@"%.1f Kb/s",speed/1000];
