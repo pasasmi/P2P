@@ -17,6 +17,8 @@
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
 
+#define CHUNKSIZE 512
+
 @implementation Server
 
 @synthesize localPort;
@@ -170,14 +172,21 @@ int downloadSocket;
     
     
     FILE *file = fopen([downloadFolderPath UTF8String], "r");
-    
-    uint8_t buff;
-    
-    while (!feof(file)) {
-        buff = fgetc(file);
-        write([socket intValue],&buff,1);
-    }
-    
+   
+	uint8_t buff[CHUNKSIZE];
+	int obtained;
+	
+	while(!feof(file))
+	{
+		obtained = fread(buff, sizeof(uint8_t), CHUNKSIZE, file);
+		if(!feof(file) && obtained != CHUNKSIZE)
+		{
+			NSLog(@"Error reading file");
+			break;
+		}
+		if(write([socket intValue], &buff, obtained) < 0) break;
+	}
+	
     close([socket intValue]);
     
 }
