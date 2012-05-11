@@ -309,7 +309,8 @@ volatile int32_t searchingThreadCount = 0;
 	
     NSAlert *alert = [NSAlert new];
     [alert setAlertStyle:NSInformationalAlertStyle];
-	[alert setMessageText:@"\n\nP2P is an academical peer-to-peer filesharing application."];
+	[alert setMessageText:@""];
+    [alert setIcon:[NSImage new]];
     [alert addButtonWithTitle:@"OK"];
     [alert setAlertStyle:NSWarningAlertStyle];
     
@@ -319,6 +320,7 @@ volatile int32_t searchingThreadCount = 0;
                       modalDelegate:self 
                      didEndSelector:nil 
                         contextInfo:nil];
+    
 }
 
 
