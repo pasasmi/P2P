@@ -27,6 +27,7 @@
 @synthesize downloadTable;
 
 NSMutableArray *currentDownloads;
+int downloadsInProgress = 0;
 
 +(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString *)path withDownloadTable:(NSTableView *)table{
     
@@ -125,6 +126,10 @@ NSMutableArray *currentDownloads;
     [currentDownloads addObject:file];
     [downloadTable reloadData];
     
+    //increment by one the number in the dock Tile (we have to handle when a download is interrupted)
+    downloadsInProgress ++;
+    [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
+    
     [NSThread detachNewThreadSelector:@selector(downloadFile:) toTarget:self withObject:file];
 }
 
@@ -189,6 +194,12 @@ NSMutableArray *currentDownloads;
 -(void)setFileEnded:(DownloadEntry*)file {
     file.finished = TRUE;
     file.speed = 0;
+    
+    downloadsInProgress --;
+    if (downloadsInProgress == 0)
+        [[NSApp dockTile] setBadgeLabel:@""];
+    else 
+        [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
 }
 
 
