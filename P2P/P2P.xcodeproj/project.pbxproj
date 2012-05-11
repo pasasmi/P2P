@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F11B554155C7E76000D7ED2 /* DownloadEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F11B553155C7E76000D7ED2 /* DownloadEntry.m */; };
 		5F26FD38155729B400107E86 /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F26FD37155729B400107E86 /* Peer.m */; };
 		5F40C2AF155A59C4009B0F73 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F40C2AE155A59C4009B0F73 /* Server.m */; };
 		5F40C2B3155A5A05009B0F73 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F40C2B2155A5A05009B0F73 /* Client.m */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F11B552155C7E76000D7ED2 /* DownloadEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadEntry.h; sourceTree = "<group>"; };
+		5F11B553155C7E76000D7ED2 /* DownloadEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadEntry.m; sourceTree = "<group>"; };
 		5F26FD36155729B400107E86 /* Peer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peer.h; sourceTree = "<group>"; };
 		5F26FD37155729B400107E86 /* Peer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Peer.m; sourceTree = "<group>"; };
 		5F40C2AD155A59C4009B0F73 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 				5F8DBF531557BF0800F760F7 /* libServerSocket.m */,
 				5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */,
 				5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */,
+				5F11B552155C7E76000D7ED2 /* DownloadEntry.h */,
+				5F11B553155C7E76000D7ED2 /* DownloadEntry.m */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				5F40C2AF155A59C4009B0F73 /* Server.m in Sources */,
 				5F40C2B3155A5A05009B0F73 /* Client.m in Sources */,
 				5FA0E0FE155AB57C00D8EAD6 /* NATPMP.m in Sources */,
+				5F11B554155C7E76000D7ED2 /* DownloadEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@
 #import "Peer.h"
 #import "Connection.h"
 #import "NATPMP.h"
+#import "DownloadEntry.h"
 
 #import <stdio.h>
 #import <stdlib.h>
@@ -23,13 +24,18 @@
 @synthesize ipList;
 @synthesize localPort;
 @synthesize path;
+@synthesize downloadTable;
 
-+(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString *)path{
+NSMutableArray *currentDownloads;
+
++(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString *)path withDownloadTable:(NSTableView *)table{
     
     Client *client  = [Client new];
     client.ipList = list;
     client.localPort = port;
     client.path = path;
+    client.downloadTable = table;
+    [table setDataSource:client];
     return client;
     
 }
@@ -112,39 +118,55 @@
 #pragma mark -
 #pragma mark functions for downlaoding file
 
--(void)requestFile:(NSString*)file serverIp:(NSString*)ip{
+-(void)requestFile:(DownloadEntry*)file{
     
-    int port = [Peer findPeerWithIp:ip inArrary:ipList].port;
+    if (currentDownloads == nil) currentDownloads = [NSMutableArray new];
+    
+    [currentDownloads addObject:file];
+    [downloadTable reloadData];
+
+    [NSThread detachNewThreadSelector:@selector(downloadFile:) toTarget:self withObject:file];
+}
+
+-(void)downloadFile:(DownloadEntry*)file{
+    
+    int port = [Peer findPeerWithIp:file.ownerIP inArrary:ipList].port;
     
     NSInputStream *in;
     NSOutputStream *out;
     
-    [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port+2 inputStream:&in outputStream:&out];
+    [Connection qNetworkAdditions_getStreamsToHostNamed:file.ownerIP port:port+2 inputStream:&in outputStream:&out];
     
     
     [in open];
     [out open];
     
-    [Connection sendNSString:[file stringByAppendingString:@"\n"] toOutputStream:out];
+    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"trying to connect");
+    
+    [Connection sendNSString:[file.filePath stringByAppendingString:@"\n"] toOutputStream:out];
     
     NSString *downloadFolderPath = [path stringByAppendingPathComponent:  
-                                    [NSString stringWithFormat:@"/%@",file]]; 
+                                    [NSString stringWithFormat:@"/%@",file.name]]; 
     
     
     FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
     uint8_t buff;
-    int count = 0;
+    int speed = 0;
     
-    while ([out streamStatus] == NSStreamStatusOpen) {
+    
+    while ([in streamStatus] == NSStreamStatusOpen) {
+        
         if([in read:&buff maxLength:1] > 0){
             fputc(buff, downladFile);
-            count++;
-            printf("%c",buff);
+
         }
     }
-    close((int)downladFile);
+    fclose(downladFile);
     [in close];
     [out close];
+    
+    [currentDownloads removeObject:file];
+    [downloadTable reloadData];
 }
 
 
@@ -187,6 +209,43 @@
 }
 
 
+#pragma mark -
+#pragma mark table view delegate methods and download files
+
+
+
+-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+   
+    if (tableView == downloadTable){
+        return [currentDownloads count];    
+    }
+
+    return 0;
+}
+
+
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if (aTableView == downloadTable) {
+        NSCell *cell = [NSCell new];
+        if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"File"] == NSOrderedSame){
+            [cell setTitle:((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).name];
+        }
+        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Progress"] == NSOrderedSame){
+            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).progress]];
+        }
+        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Speed"] == NSOrderedSame){
+            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).speed]];
+        }
+        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Total Size"] == NSOrderedSame){
+            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).total]];
+        }
+        return cell;
+    }
+    
+}
 
 
 @end

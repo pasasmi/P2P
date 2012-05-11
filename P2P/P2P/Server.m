@@ -23,6 +23,7 @@
 @synthesize ipList;
 @synthesize path;
 
+
 NSThread *threads[3];
 
 +(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path {
@@ -218,7 +219,7 @@ int querySocket;
     
     for (NSString *file in files){
         NSString *fullPath = [path stringByAppendingPathComponent:file];
-        if([file rangeOfString:search].location != NSNotFound && 
+        if([[file lastPathComponent] rangeOfString:search].location != NSNotFound && 
            ![[[fileManager attributesOfItemAtPath:fullPath error:NULL] objectForKey:NSFileType] isEqualToString:@"NSFileTypeDirectory"])
         {
             [Connection sendNSString:[file stringByAppendingString:@"\n"] toSocket:[socket intValue]];

@@ -13,6 +13,7 @@
     int localPort;
     NSMutableArray *ipList;
     NSString *path;
+
     
 }
 
@@ -27,5 +28,6 @@
 @property int localPort;
 @property NSMutableArray* ipList;
 @property NSString* path;
+
 
 @end

@@ -13,6 +13,7 @@
 #import "Server.h"
 #import "Client.h"
 #import "NATPMP.h"
+#import "DownloadEntry.h"
 
 #import <stdio.h>
 #import <stdlib.h>
@@ -47,6 +48,12 @@ NSMutableArray *ipList;
 NSDictionary *pref;
 
 
+NSMutableArray *files;
+NSMutableArray *filePath;
+NSMutableArray *sizes;
+NSMutableArray *ipRequestedFile;
+
+
 #pragma mark -
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -56,17 +63,19 @@ NSDictionary *pref;
     NSString *path = [[NSBundle mainBundle] bundlePath];
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
     pref = [NSDictionary dictionaryWithContentsOfFile:path];
-
+    
     NSString *localPath	= [pref objectForKey:@"downloadPath"];
     NSString *remoteIp	= [pref objectForKey:@"initRemoteIP"];
     int remotePort		= [[pref objectForKey:@"initRemotePort"] intValue];
     int localPort		= [[pref objectForKey:@"initLocalPort"] intValue];
     
+
+    
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
     
     server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
-    client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath];
+    client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath withDownloadTable:_downloadsTable];
     
     [self setPreferencesVariables];
     
@@ -86,8 +95,15 @@ NSDictionary *pref;
 
 #pragma mark -
 
+
 - (IBAction)downloadButtonClick:(id)sender
 {
+    int index = _searchTable.selectedRow;
+    [client requestFile:[DownloadEntry newDownloadEntryWithName:[files objectAtIndex:index]
+                                                       withPath:[filePath objectAtIndex:index]
+                                                  withTotalSize:[[sizes objectAtIndex:index] intValue]
+                                                         withIP:[ipRequestedFile objectAtIndex:index]]];
+    
 }
 
 #pragma mark -
@@ -150,7 +166,7 @@ NSDictionary *pref;
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
-
+    
     [pref writeToFile:path atomically:YES];
     
     [_prefPopover close];
@@ -176,15 +192,13 @@ NSDictionary *pref;
 #pragma mark -
 #pragma mark table view delegate methods,finding files and downloading files
 
-NSMutableArray *files;
-NSMutableArray *sizes;
-
 - (IBAction)searchButtonClick:(id)sender
 {
     
     files = [NSMutableArray new];
     sizes = [NSMutableArray new];
-    
+    filePath = [NSMutableArray new];
+    ipRequestedFile = [NSMutableArray new];
     
     NSString *find = _searchField.title;
     
@@ -198,8 +212,10 @@ NSMutableArray *sizes;
 	[_progressBar startAnimation:nil];
 	
     for (Peer *peer in ipList) {
-        [files addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
+        [filePath addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
+        for(NSString *s in filePath) [files addObject:[s lastPathComponent]];
         for(NSString *s in files) [sizes addObject:s];
+        for(NSString *s in files) [ipRequestedFile addObject:peer.ip];
         [_searchTable reloadData];
     }
 	
@@ -215,7 +231,7 @@ NSMutableArray *sizes;
         return [files count];    
     }
     
-
+    
     return 0;
 }
 
