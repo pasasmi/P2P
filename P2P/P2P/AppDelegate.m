@@ -51,7 +51,6 @@ NSDictionary *pref;
 
 NSMutableArray *files;
 NSMutableArray *filePath;
-NSMutableArray *sizes;
 NSMutableArray *ipRequestedFile;
 
 volatile int32_t searchingThreadCount = 0;
@@ -105,7 +104,6 @@ volatile int32_t searchingThreadCount = 0;
     int index = _searchTable.selectedRow;
     [client requestFile:[DownloadEntry newDownloadEntryWithName:[files objectAtIndex:index]
                                                        withPath:[filePath objectAtIndex:index]
-                                                  withTotalSize:[[sizes objectAtIndex:index] intValue]
                                                          withIP:[ipRequestedFile objectAtIndex:index]]];
     
 }
@@ -200,7 +198,6 @@ volatile int32_t searchingThreadCount = 0;
 {
     
     files = [NSMutableArray new];
-    sizes = [NSMutableArray new];
     filePath = [NSMutableArray new];
     ipRequestedFile = [NSMutableArray new];
     
@@ -219,7 +216,6 @@ volatile int32_t searchingThreadCount = 0;
     for (Peer *peer in ipList) {
         [filePath addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
         for(NSString *s in filePath) [files addObject:[s lastPathComponent]];
-        for(NSString *s in files) [sizes addObject:s];
         for(NSString *s in files) [ipRequestedFile addObject:peer.ip];
         [_searchTable reloadData];
     }
@@ -255,9 +251,7 @@ volatile int32_t searchingThreadCount = 0;
         if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
             [cell setTitle:[files objectAtIndex:rowIndex]];
         }
-        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Size"] == NSOrderedSame){
-            [cell setTitle:[sizes objectAtIndex:rowIndex]];
-        }
+
         return cell;
     }
     return  NULL;

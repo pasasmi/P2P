@@ -15,11 +15,11 @@
 @synthesize ownerIP;
 @synthesize progress;
 @synthesize speed;
-@synthesize total;
 @synthesize time;
+@synthesize finished;
 
 
-+(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString *)fPath withTotalSize:(int)size  withIP:(NSString*)ip{
++(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString *)fPath  withIP:(NSString*)ip{
     
     DownloadEntry *entry = [DownloadEntry new];
     
@@ -28,8 +28,8 @@
     entry.ownerIP =ip;
     entry.progress = 0;
     entry.speed = 0;
-    entry.total = size;
     entry.time = 0;
+    entry.finished = FALSE;
     
     return entry;
 }
