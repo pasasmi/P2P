@@ -85,7 +85,7 @@
         }
     }
     
-    if ([inputStream streamStatus] == NSStreamStatusClosed) return @"";
+    if ([inputStream streamStatus] != NSStreamStatusOpen) return @"";
     
     buff[count-1]='\0';
     
