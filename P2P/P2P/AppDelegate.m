@@ -180,7 +180,7 @@ volatile int32_t searchingThreadCount = 0;
 	[self closePopoverAndSavePreferences];
 }
 
--(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)self
+-(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
 {
 	if([client getDownloadsInProgress] > 0)
 	{
