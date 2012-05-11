@@ -296,6 +296,17 @@ volatile int32_t searchingThreadCount = 0;
 - (IBAction)openAbout:(id)sender
 {
     
+	/*
+	 Me parece muy cutre como queda el about este.
+	 Es por culpa de usar un NSAlert, que viene por defecto con el icono y un espacio para texto
+	 y DEBAJO es donde se pone el NSView, no se sustituye.
+	 
+	 Prefiero volver al dialogo de About original
+	 
+	 fdo: jorchube
+	 */
+	
+	
     NSAlert *alert = [NSAlert new];
     [alert setAlertStyle:NSInformationalAlertStyle];
 	[alert setMessageText:@"\n\nP2P is an academical peer-to-peer filesharing application."];
