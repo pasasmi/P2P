@@ -180,9 +180,27 @@ volatile int32_t searchingThreadCount = 0;
 	[self closePopoverAndSavePreferences];
 }
 
--(void) windowWillClose:(NSNotification *)notification
+-(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)self
+{
+	if([client getDownloadsInProgress] > 0)
+	{
+		NSAlert *warning = [[NSAlert alloc] init];
+		[warning addButtonWithTitle:@"Exit anyway"];
+		[warning addButtonWithTitle:@"Do not exit"];
+		[warning setMessageText:@"WARNING: There are still ongoing downloads"];
+		[warning setInformativeText:@"Ongoing downloads will be lost."];
+		[warning setAlertStyle:NSWarningAlertStyle];
+
+		if([warning runModal] == NSAlertFirstButtonReturn) return NSTerminateNow;
+		return NSTerminateCancel;
+	}
+	return NSTerminateNow;
+}
+
+-(BOOL) windowShouldClose:(NSWindow *)self
 {
 	[NSApp terminate: nil];
+	return FALSE;
 }
 
 -(void) windowWillEnterFullScreen:(NSNotification *)notification{
@@ -197,7 +215,6 @@ volatile int32_t searchingThreadCount = 0;
 
 - (IBAction)searchButtonClick:(id)sender
 {
-    
     files = [NSMutableArray new];
     filePath = [NSMutableArray new];
     ipRequestedFile = [NSMutableArray new];

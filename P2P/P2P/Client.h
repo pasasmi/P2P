@@ -19,6 +19,7 @@
 
 +(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path withDownloadTable:(NSTableView*)table;
 
+-(int) getDownloadsInProgress;
 -(void)requestIPListWithIP:(NSString *)ip local:(BOOL)local;
 -(void)requestIPListWithIP:(NSString *)ip withPort:(int)port local:(BOOL)local;
 -(NSArray*)findFiles:(NSString*)file serverIp:(NSString*)ip ;
