@@ -54,13 +54,7 @@ NSThread *threads[3];
 -(void)restartServer {
     NSLog(@"server restarted");
     
-    [self closeDownloadServer];
-    [self closePeerListServer];
-    [self closeQueryServer];
-    
-    [threads[0] cancel];
-    [threads[1] cancel];
-    [threads[2] cancel];
+    [self stopServers];
     
     [self startServer];
 }
@@ -77,6 +71,16 @@ NSThread *threads[3];
     [threads[2] start];
 }
 
+-(void)stopServers {
+    [self closeDownloadServer];
+    [self closePeerListServer];
+    [self closeQueryServer];
+    
+    [threads[0] cancel];
+    [threads[1] cancel];
+    [threads[2] cancel];
+}
+
 #pragma mark -
 #pragma mark handle peer IP list request
 
@@ -87,14 +91,16 @@ int peerSocket;
     peerSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort);
     
     if(peerSocket <= 0){
-        printf("ERROR: Failed to create PeerListServer\n");
+        NSLog(@"ERROR: Failed to create peer list server trying again in 1 second");
         usleep(1000000);
     }
 	
 	while (true) { 
         int connection = createConnectionSocket(peerSocket);
-        if(connection <= 0)
-			printf("Error establishing connection\n");
+        if(connection <= 0){
+			NSLog(@"Error establishing connection in peer server");
+            usleep(1000000);
+        }
 		else{
             [NSThread detachNewThreadSelector:@selector(newPeerListRequest:) toTarget:self withObject:[NSNumber numberWithInt:connection]];
 		}
@@ -149,13 +155,17 @@ int downloadSocket;
     
     downloadSocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+2);
     
-    if(downloadSocket <= 0)
-        printf("ERROR: Failed to create QueryServerSocket\n");
+    if(downloadSocket <= 0){
+        NSLog(@"ERROR: Failed to create downloadServer trying again in 1 second");
+        usleep(1000000);
+        [self startDownloadServer];
+        return;
+    }
 	
 	while (true) {
         int connection = createConnectionSocket(downloadSocket);
         if(connection <= 0){
-			printf("Error establishing connection\n");
+			NSLog(@"Error establishing connection in download server");
             usleep(1000000);
         }
 		else{
@@ -222,13 +232,17 @@ int querySocket;
     
     querySocket = createListenSocket(NETWORK_SOCKET, STREAM, localPort+1);
     
-    if(querySocket <= 0)
-        printf("ERROR: Failed to create QueryServerSocket\n");
+    if(querySocket <= 0){
+        NSLog(@"ERROR: Failed to create query server trying again in 1 second");
+        usleep(1000000);
+        [self startQueryServer];
+        return;
+    }
 	
 	while (true) {
         int connection = createConnectionSocket(querySocket);
         if(connection <= 0){
-			printf("Error establishing connection\n");
+			NSLog(@"Error establishing connection in query server\n");
             usleep(1000000);
         }
 		else{

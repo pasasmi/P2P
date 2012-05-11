@@ -203,9 +203,13 @@ volatile int32_t searchingThreadCount = 0;
 		[warning setInformativeText:@"Ongoing downloads will be lost."];
 		[warning setAlertStyle:NSWarningAlertStyle];
 
-		if([warning runModal] == NSAlertFirstButtonReturn) return NSTerminateNow;
+		if([warning runModal] == NSAlertFirstButtonReturn) {
+            [server stopServers];
+            return NSTerminateNow;
+        }
 		return NSTerminateCancel;
 	}
+    [server stopServers];
 	return NSTerminateNow;
 }
 

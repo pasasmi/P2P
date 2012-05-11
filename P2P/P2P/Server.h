@@ -35,6 +35,7 @@
 +(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path;
 -(void)restartServer;
 -(void)startServer;
+-(void)stopServers;
 
 @property int localPort;
 @property NSMutableArray* ipList;

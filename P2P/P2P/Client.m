@@ -29,6 +29,7 @@
 #import <netinet/in.h> //internet domain stuff
 #import <netdb.h> //server info
 
+#define CHUNKSIZE 512
 
 @implementation Client
 
@@ -135,12 +136,26 @@ int downloadsInProgress = 0;
 #pragma mark -
 #pragma mark functions for downlaoding file
 
+NSTimer *updatingDownlaodInfo;
+
 -(void)requestFile:(DownloadEntry*)file{
     
     if (currentDownloads == nil) currentDownloads = [NSMutableArray new];
     
     [currentDownloads addObject:file];
     [downloadTable reloadData];
+    
+    //if we are going to put an object and the counter is zero we have to create the timer updater for de downloading info
+    if (downloadsInProgress == 0) {
+        
+        updatingDownlaodInfo = [NSTimer scheduledTimerWithTimeInterval:1.0 
+                                                                target:self
+                                                              selector:@selector(updateFileProperties) 
+                                                              userInfo:nil
+                                                               repeats:YES];
+        
+        [updatingDownlaodInfo setFireDate:[NSDate new]];
+    }
     
     //increment by one the number in the dock Tile (we have to handle when a download is interrupted)
     downloadsInProgress ++;
@@ -171,21 +186,15 @@ int downloadsInProgress = 0;
     
     
     FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
-    uint8_t buff;
+    uint8_t buff[CHUNKSIZE];
+    int readed = 0;
     
-    
-    long timeInterVal = time(NULL)+1;
     
     while ([in streamStatus] == NSStreamStatusOpen) {
         
-        if (time(NULL)>timeInterVal) {
-            timeInterVal = time(NULL)+1; 
-            [self updateFileProperties:file];
-        } 
-        
-        if([in read:&buff maxLength:1] > 0){
-            fputc(buff, downladFile);
-            file.progress++;
+        if((readed = [in read:&buff[0] maxLength:1]) > 0){
+            fwrite(&buff, 1, readed, downladFile);
+            file.progress+=readed;
         }
     }
     fclose(downladFile);
@@ -198,11 +207,14 @@ int downloadsInProgress = 0;
     //[downloadTable reloadData];
 }
 
--(void)updateFileProperties:(DownloadEntry*)file {
+-(void)updateFileProperties {
     
-    file.time ++;
-    
-    file.speed = (file.progress / file.time);
+    for (DownloadEntry *download in currentDownloads){
+        if (!download.finished){
+            download.time ++;
+            download.speed = (download.progress / download.time);
+        } 
+    }
     
     [downloadTable reloadData];
 }
@@ -212,8 +224,10 @@ int downloadsInProgress = 0;
     file.speed = 0;
     
     downloadsInProgress --;
-    if (downloadsInProgress == 0)
+    if (downloadsInProgress == 0){
         [[NSApp dockTile] setBadgeLabel:@""];
+        [updatingDownlaodInfo invalidate];//if the last file is downloaded we end the timer updater
+    }
     else 
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
 }
@@ -230,9 +244,7 @@ int downloadsInProgress = 0;
     
     int port = [Peer findPeerWithIp:ip inArrary:ipList].port; 
     
-    
     [Connection qNetworkAdditions_getStreamsToHostNamed:ip port:port+1 inputStream:&in outputStream:&out];
-    
     
     [in open];
     [out open];

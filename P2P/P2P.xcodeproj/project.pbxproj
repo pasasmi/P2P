@@ -141,7 +141,6 @@
 		5F7943A51556F93C0029732E /* P2P */ = {
 			isa = PBXGroup;
 			children = (
-				B5C6831F155D74F100108182 /* LICENSE.txt */,
 				5F8DBF561557BF0D00F760F7 /* Server */,
 				5F7943B11556F93C0029732E /* AppDelegate.h */,
 				5F7943B21556F93C0029732E /* AppDelegate.m */,
@@ -154,6 +153,7 @@
 		5F7943A61556F93C0029732E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B5C6831F155D74F100108182 /* LICENSE.txt */,
 				B57FE14B155D48EE0006C755 /* P2Picon.icns */,
 				5F7943A71556F93C0029732E /* P2P-Info.plist */,
 				5F7943A81556F93C0029732E /* InfoPlist.strings */,
