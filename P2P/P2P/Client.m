@@ -278,9 +278,7 @@ NSMutableArray *currentDownloads;
             
             [cell setTitle:speedStr];
         }
-        else if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Total Size"] == NSOrderedSame){
-            [cell setTitle:[NSString stringWithFormat:@"%d",((DownloadEntry*)[currentDownloads objectAtIndex:rowIndex]).total]];
-        }
+        
         return cell;
     }
     

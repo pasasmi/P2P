@@ -14,19 +14,17 @@
     NSString *ownerIP;
     int progress;
     int speed;
-    int total;
     int time;
     BOOL finished;
 }
 
-+(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString*)paht withTotalSize:(int)size withIP:(NSString*)ip;
++(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString*)paht withIP:(NSString*)ip;
 
 @property NSString *name;
 @property NSString *filePath;
 @property NSString *ownerIP;
 @property int progress;
 @property int speed;
-@property int total;
 @property int time;
 @property BOOL finished;
 
