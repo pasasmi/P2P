@@ -16,6 +16,7 @@
     int speed;
     int total;
     int time;
+    BOOL finished;
 }
 
 +(DownloadEntry*)newDownloadEntryWithName:(NSString*)name withPath:(NSString*)paht withTotalSize:(int)size withIP:(NSString*)ip;
@@ -27,6 +28,7 @@
 @property int speed;
 @property int total;
 @property int time;
+@property BOOL finished;
 
 
 @end
