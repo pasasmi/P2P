@@ -54,7 +54,7 @@ NSMutableArray *filePath;
 NSMutableArray *sizes;
 NSMutableArray *ipRequestedFile;
 
-volatile int32_t* searchingThreadCount = 0;
+volatile int32_t searchingThreadCount = 0;
 
 #pragma mark -
 
@@ -210,7 +210,7 @@ volatile int32_t* searchingThreadCount = 0;
 }
 
 -(void)findFilesWithString:(NSString*)find {
-	OSAtomicIncrement32(searchingThreadCount);
+	OSAtomicIncrement32(&searchingThreadCount);
 	[_searchingLabel setHidden:FALSE];
 	[_progressBar startAnimation:nil];
 	
@@ -224,7 +224,7 @@ volatile int32_t* searchingThreadCount = 0;
 	
 	@synchronized(self)
 	{
-		if(OSAtomicDecrement32(searchingThreadCount) <= 0)
+		if(OSAtomicDecrement32(&searchingThreadCount) <= 0)
 		{
 			[_searchingLabel setHidden:TRUE];
 			[_progressBar stopAnimation:nil];
