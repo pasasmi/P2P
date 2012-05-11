@@ -41,6 +41,11 @@ int downloadsInProgress = 0;
     
 }
 
+-(int) getDownloadsInProgress
+{
+	return downloadsInProgress;
+}
+
 #pragma mark -
 #pragma mark request for a IP list of the peer
 
