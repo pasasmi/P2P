@@ -18,11 +18,14 @@
  */
 
 #import "Peer.h"
+#import "NATPMP.h"
 
 @implementation Peer
 
 @synthesize ip=_ip;
 @synthesize port=_port;
+
+static NSString* localIP;
 
 +(Peer*)newPeerWithIp:(NSString*)ip port:(int)port{
     
@@ -68,9 +71,11 @@
 
 +(BOOL)addPeer:(Peer*)peer toArray:(NSMutableArray*)array {
     
+    if (localIP == nil)localIP = [NATPMP getPublicIp];
+    
     Peer *find = [self findPeerWithIp:peer.ip inArrary:array];
-    NSLog(@"added ip");
-    if (find == nil) {
+
+    if (find == nil && ![peer.ip hasPrefix:@"127"] && ![peer.ip isEqualToString:localIP]) {
         [array addObject:peer];
         return true;
     }else if (peer.port != find.port) {
