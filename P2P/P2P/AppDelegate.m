@@ -111,6 +111,8 @@ volatile int32_t searchingThreadCount = 0;
 	
 }
 
+
+
 -(void)setPreferencesVariables 
 {
     [_folderDownloadsPath setTitle:[pref objectForKey:@"downloadPath"]];
@@ -143,6 +145,7 @@ volatile int32_t searchingThreadCount = 0;
 						   preferredEdge:NSMaxYEdge];
 	
 	else [self closePopoverAndSavePreferences];
+    
 }
 
 - (IBAction)chooseDownloadsFolder:(id)sender
@@ -341,6 +344,7 @@ volatile int32_t searchingThreadCount = 0;
                         contextInfo:nil];
     
 }
+
 
 
 

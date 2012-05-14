@@ -115,7 +115,7 @@ NSString *externalIP;
 	int aux = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++aux > CONNECTION_ATTEMPTS) {
             NSLog(@"try to connect in get ip list");
             [out close];[in close];
@@ -212,7 +212,7 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++count > CONNECTION_ATTEMPTS) {
             NSLog(@"trying to connect in download file");
             [out close];[in close];
@@ -274,8 +274,27 @@ NSTimer *updatingDownlaodInfo;
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
     
     [downloadTable reloadData];
+    [self bounce];
 }
 
+-(void)bounce {
+    
+    NSLog(@"bouncing");
+    
+    CGPoint cen = [[NSApp mainWindow] frame].origin;
+    
+    for (int i = 1; i <= 4; i++) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = 4; i >= 0; i--) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = 0; i >= -4; i--) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = -4; i <= 0; i++) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+}
 
 #pragma mark -
 #pragma mark functions for reuesting list of files
@@ -296,7 +315,7 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++count > CONNECTION_ATTEMPTS) {
             NSLog(@"try to connect in find files");
             [out close];[in close];
@@ -393,6 +412,9 @@ NSTimer *updatingDownlaodInfo;
     
     return NULL;
 }
+
+
+
 
 
 @end
