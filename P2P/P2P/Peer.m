@@ -70,9 +70,12 @@ static NSString* localIP;
 }
 
 +(BOOL)addPeer:(Peer*)peer toArray:(NSMutableArray*)array {
-	
+    
+    if (localIP == nil)localIP = [NATPMP getPublicIp];
+    
     Peer *find = [self findPeerWithIp:peer.ip inArrary:array];
-    if (find == nil) {
+
+    if (find == nil && ![peer.ip hasPrefix:@"127"] && ![peer.ip isEqualToString:localIP]) {
         [array addObject:peer];
         return true;
     }else if (peer.port != find.port) {
