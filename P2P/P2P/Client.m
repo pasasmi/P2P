@@ -223,8 +223,7 @@ NSTimer *updatingDownlaodInfo;
     
     [self setFileEnded:file];
     
-    //[currentDownloads removeObject:file];
-    //[downloadTable reloadData];
+    
 }
 
 -(void)updateFileProperties {
@@ -250,6 +249,8 @@ NSTimer *updatingDownlaodInfo;
     }
     else 
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
+    
+    [downloadTable reloadData];
 }
 
 
