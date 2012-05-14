@@ -45,7 +45,6 @@
     
     NSString *ip = [[[root elementsForName:@"body"] objectAtIndex:0] stringValue];
 
-    
     return  [ip substringFromIndex:20];
     
 }

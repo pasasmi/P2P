@@ -259,10 +259,14 @@ volatile int32_t searchingThreadCount = 0;
 	[_progressBar startAnimation:nil];
 	
     for (Peer *peer in ipList) {
-        [filePath addObjectsFromArray:[client findFiles:find serverIp:peer.ip]];
-        for(NSString *s in filePath) [files addObject:[s lastPathComponent]];
-        for(NSString *s in files) [ipRequestedFile addObject:peer.ip];
-        [_searchTable reloadData];
+		NSArray *target = [client findFiles:find serverIp:peer.ip];
+		if(target != nil)
+		{
+			[filePath addObjectsFromArray:target];
+			for(NSString *s in filePath) [files addObject:[s lastPathComponent]];
+			for(NSString *s in files) [ipRequestedFile addObject:peer.ip];
+			[_searchTable reloadData];
+		}
     }
 	
 	@synchronized(self)
