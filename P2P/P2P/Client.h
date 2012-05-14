@@ -26,7 +26,7 @@
     int localPort;
     NSString *path;
     NSTableView *downloadTable;
-    NSTableView *ipTable;
+    NSTableView *peersTable;
     BOOL local;
 }
 
@@ -43,6 +43,6 @@
 @property NSString *path;
 @property NSTableView *downloadTable;
 @property BOOL local;
-@property NSTableView *ipTable;
+@property NSTableView *peersTable;
 
 @end

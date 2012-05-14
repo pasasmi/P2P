@@ -97,7 +97,7 @@ volatile int32_t searchingThreadCount = 0;
                              andIpList:ipList 
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
-                           withIPTable:_downloadsTable
+                           withIPTable:_peersTable
                        localConnection:TRUE];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
