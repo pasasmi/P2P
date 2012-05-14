@@ -66,15 +66,17 @@
     return nil;
 }
 
-+(void)addPeer:(Peer*)peer toArray:(NSMutableArray*)array {
++(BOOL)addPeer:(Peer*)peer toArray:(NSMutableArray*)array {
     
     Peer *find = [self findPeerWithIp:peer.ip inArrary:array];
     if (find == nil) {
         [array addObject:peer];
+        return true;
     }else if (peer.port != find.port) {
         find.port = peer.port;
+        return true;
     }
-    
+    return false;
     
 }
 
