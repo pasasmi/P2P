@@ -86,7 +86,7 @@ volatile int32_t searchingThreadCount = 0;
 
     
     ipList = [NSMutableArray new];
-    [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
+    [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
     
     server = [Server newServerWithPort:localPort 
                              andIpList:ipList 

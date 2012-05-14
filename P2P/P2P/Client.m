@@ -70,7 +70,7 @@ int downloadsInProgress = 0;
     
     [self requestIPListWithIP:((Peer*)[ipList objectAtIndex:0]).ip];
     [ipList exchangeObjectAtIndex:0 withObjectAtIndex:[ipList count]-1];
-    NSLog(@"iplist = %d",[ipList count]);
+    
 }
 
 -(void)requestIPListWithIP:(NSString *)ip{
@@ -135,7 +135,7 @@ int downloadsInProgress = 0;
         
         portTmp[count-startPortNumber]= '\0';
         
-        [ipList addObject:[Peer newPeerFromCArray:ipTmp port:portTmp]];        
+        [Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList];        
         tmp = 0;
         count = 0;
         startPortNumber = -1;
