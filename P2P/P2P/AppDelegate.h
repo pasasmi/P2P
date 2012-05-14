@@ -54,5 +54,8 @@
 @property (weak) IBOutlet NSView *about;
 - (IBAction)openAbout:(id)sender;
 
+//Peers tab
+@property (weak) IBOutlet NSTableView *peersTable;
+
 
 @end

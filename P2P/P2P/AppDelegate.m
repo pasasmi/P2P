@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @implementation AppDelegate
 
+@synthesize peersTable = _peersTable;
 @synthesize folderDownloadsPath = _folderDownloadsPath;
 @synthesize chooseDownloadsPathButton = _chooseDownloadsPathButton;
 @synthesize localPortField = _localPortField;
@@ -97,7 +98,7 @@ volatile int32_t searchingThreadCount = 0;
                              andIpList:ipList 
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
-                           withIPTable:_downloadsTable
+                           withIPTable:_peersTable
                        localConnection:TRUE];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
@@ -240,7 +241,7 @@ volatile int32_t searchingThreadCount = 0;
 }
 
 #pragma mark -
-#pragma mark table view delegate methods,finding files and downloading files
+#pragma mark DOWNLOADS table view delegate methods,finding files and downloading files
 
 - (IBAction)searchButtonClick:(id)sender
 {

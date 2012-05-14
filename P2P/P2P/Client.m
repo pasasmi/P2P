@@ -38,22 +38,22 @@
 @synthesize path;
 @synthesize downloadTable;
 @synthesize local;
-@synthesize ipTable;
+@synthesize peersTable;
 
 NSMutableArray *currentDownloads;
 int downloadsInProgress = 0;
 
-+(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path withDownloadTable:(NSTableView*)downloadTable withIPTable:(NSTableView*)ipTable localConnection:(BOOL)local{
++(Client*)newClientWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path withDownloadTable:(NSTableView*)downloadTable withIPTable:(NSTableView*)peersTable localConnection:(BOOL)local{
     
     Client *client  = [Client new];
     client.ipList = list;
     client.localPort = port;
     client.path = path;
     client.downloadTable = downloadTable;
-    client.ipTable = ipTable;
+    client.peersTable = peersTable;
     client.local = local;
     [downloadTable setDataSource:client];
-    [ipTable setDataSource:client];
+    [peersTable setDataSource:client];
     return client;
     
 }
@@ -136,7 +136,7 @@ int downloadsInProgress = 0;
         portTmp[count-startPortNumber]= '\0';
         
         if ([Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList]) 
-            [ipTable reloadData];
+            [peersTable reloadData];
         
         tmp = 0;
         count = 0;
@@ -293,7 +293,7 @@ NSTimer *updatingDownlaodInfo;
     if (tableView == downloadTable){
         return [currentDownloads count];    
     }
-    else if (tableView == ipTable){
+    else if (tableView == peersTable){
         return [ipList count];    
     }
     
@@ -340,7 +340,7 @@ NSTimer *updatingDownlaodInfo;
         
         return cell;
     }
-    else if (aTableView == ipTable) {
+    else if (aTableView == peersTable) {
         NSCell *cell = [NSCell new];
         if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"IP"] == NSOrderedSame){
             [cell setTitle:((Peer*)[ipList objectAtIndex:rowIndex]).ip];
