@@ -18,11 +18,14 @@
  */
 
 #import "Peer.h"
+#import "NATPMP.h"
 
 @implementation Peer
 
 @synthesize ip=_ip;
 @synthesize port=_port;
+
+static NSString* localIP;
 
 +(Peer*)newPeerWithIp:(NSString*)ip port:(int)port{
     
