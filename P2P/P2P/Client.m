@@ -115,7 +115,7 @@ NSString *externalIP;
 	int aux = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++aux > CONNECTION_ATTEMPTS) {
             NSLog(@"try to connect in get ip list");
             [out close];[in close];
@@ -212,7 +212,7 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++count > CONNECTION_ATTEMPTS) {
             NSLog(@"trying to connect in download file");
             [out close];[in close];
@@ -296,7 +296,7 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-        usleep(1000);
+        usleep(100000);
 		if(++count > CONNECTION_ATTEMPTS) {
             NSLog(@"try to connect in find files");
             [out close];[in close];
