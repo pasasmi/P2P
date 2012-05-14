@@ -140,7 +140,7 @@ int peerSocket;
         [Connection sendNSString:[[ipList objectAtIndex:i] stringFormat] toSocket:[socket intValue]];
     }
     
-    [ipList addObject:[Peer newPeerFromCArray:ipTmp port:portTmp]];
+    [Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList];
     
     close([socket intValue]);
 }
