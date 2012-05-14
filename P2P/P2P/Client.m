@@ -274,8 +274,27 @@ NSTimer *updatingDownlaodInfo;
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
     
     [downloadTable reloadData];
+    [self bounce];
 }
 
+-(void)bounce {
+    
+    NSLog(@"bouncing");
+    
+    CGPoint cen = [[NSApp mainWindow] frame].origin;
+    
+    for (int i = 1; i <= 4; i++) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = 4; i >= 0; i--) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = 0; i >= -4; i--) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+    
+    for (int i = -4; i <= 0; i++) 
+        [[NSApp mainWindow] setFrameOrigin:CGPointMake(cen.x+i, cen.y+i)];
+}
 
 #pragma mark -
 #pragma mark functions for reuesting list of files
@@ -393,6 +412,9 @@ NSTimer *updatingDownlaodInfo;
     
     return NULL;
 }
+
+
+
 
 
 @end
