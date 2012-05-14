@@ -88,10 +88,21 @@ volatile int32_t searchingThreadCount = 0;
     ipList = [NSMutableArray new];
     [ipList addObject:[Peer newPeerWithIp:remoteIp port:remotePort]];
     
-    server = [Server newServerWithPort:localPort andIpList:ipList withPath:localPath];
-    client = [Client newClientWithPort:localPort andIpList:ipList withPath:localPath withDownloadTable:_downloadsTable];
+    server = [Server newServerWithPort:localPort 
+                             andIpList:ipList 
+                              withPath:localPath];
     
- 
+    client = [Client newClientWithPort:localPort 
+                             andIpList:ipList 
+                              withPath:localPath 
+                     withDownloadTable:_downloadsTable 
+                                 localConnection:TRUE];
+    
+    [NSTimer scheduledTimerWithTimeInterval:10.0 
+                                     target:client
+                                   selector:@selector(updateIPList) 
+                                   userInfo:nil 
+                                    repeats:YES];
     
     [self setPreferencesVariables];
     

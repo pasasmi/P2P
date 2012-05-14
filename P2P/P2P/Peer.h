@@ -31,6 +31,7 @@
 -(NSString*)stringFormat ;
 
 +(Peer*)findPeerWithIp:(NSString*)ip inArrary:(NSArray*)ipList;
++(void)addPeer:(Peer*)peer toArray:(NSMutableArray*)array;
 
 @property  NSString *ip;
 @property  int port;
