@@ -30,7 +30,7 @@
 #import <netdb.h> //server info
 
 #define CHUNKSIZE 512
-#define CONNECTION_ATTEMPTS 1000
+#define CONNECTION_ATTEMPTS 40
 
 @implementation Client
 
@@ -115,8 +115,9 @@ NSString *externalIP;
 	int aux = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-		NSLog(@"try to connect in get ip list");
+        usleep(1000);
 		if(++aux > CONNECTION_ATTEMPTS) {
+            NSLog(@"try to connect in get ip list");
             [out close];[in close];
             return;
         }
@@ -211,8 +212,9 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-		NSLog(@"trying to connect in download file");
+        usleep(1000);
 		if(++count > CONNECTION_ATTEMPTS) {
+            NSLog(@"trying to connect in download file");
             [out close];[in close];
             return;
         } 
@@ -294,8 +296,9 @@ NSTimer *updatingDownlaodInfo;
 	int count = 0;
     while ([in streamStatus] == NSStreamStatusOpening)
 	{
-		NSLog(@"try to connect in find files");
+        usleep(1000);
 		if(++count > CONNECTION_ATTEMPTS) {
+            NSLog(@"try to connect in find files");
             [out close];[in close];
             return nil;
         }
