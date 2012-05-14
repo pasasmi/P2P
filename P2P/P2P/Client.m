@@ -111,6 +111,8 @@ NSString *externalIP;
     
     [localDir getCString:(char*)&buff[0] maxLength:128 encoding:NSStringEncodingConversionAllowLossy];
     
+    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"try to connect in get ip list");
+    
     [out write:buff maxLength:[localDir length]];
     
     //reciving ip list of the other side.
@@ -197,7 +199,7 @@ NSTimer *updatingDownlaodInfo;
     [in open];
     [out open];
     
-    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"trying to connect");
+    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"trying to connect in download file");
     
     [Connection sendNSString:[file.filePath stringByAppendingString:@"\n"] toOutputStream:out];
     
@@ -208,6 +210,7 @@ NSTimer *updatingDownlaodInfo;
     FILE *downladFile = fopen([downloadFolderPath UTF8String], "w");
     uint8_t buff[CHUNKSIZE];
     int readed = 0;
+    
     
     
     while ([in streamStatus] == NSStreamStatusOpen) {
@@ -270,7 +273,7 @@ NSTimer *updatingDownlaodInfo;
     [in open];
     [out open];
     
-    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"try to connect");
+    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"try to connect in find files");
     
     [Connection sendNSString:[file stringByAppendingString:@"\n"] toOutputStream:out];
     
