@@ -93,11 +93,12 @@ volatile int32_t searchingThreadCount = 0;
                              andIpList:ipList 
                               withPath:localPath];
     
-    /*client = [Client newClientWithPort:localPort 
+    client = [Client newClientWithPort:localPort 
                              andIpList:ipList 
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
-                                 localConnection:TRUE];*/
+                           withIPTable:_downloadsTable
+                       localConnection:TRUE];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
                                      target:client

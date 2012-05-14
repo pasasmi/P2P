@@ -135,7 +135,9 @@ int downloadsInProgress = 0;
         
         portTmp[count-startPortNumber]= '\0';
         
-        [Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList];        
+        if ([Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList]) 
+            [ipTable reloadData];
+        
         tmp = 0;
         count = 0;
         startPortNumber = -1;
@@ -338,7 +340,7 @@ NSTimer *updatingDownlaodInfo;
         
         return cell;
     }
-    else if (aTableView == downloadTable) {
+    else if (aTableView == ipTable) {
         NSCell *cell = [NSCell new];
         if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"IP"] == NSOrderedSame){
             [cell setTitle:((Peer*)[ipList objectAtIndex:rowIndex]).ip];
