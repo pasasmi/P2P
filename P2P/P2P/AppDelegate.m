@@ -83,10 +83,7 @@ volatile int32_t searchingThreadCount = 0;
     NSString *remoteIp	= [pref objectForKey:@"initRemoteIP"];
     int remotePort		= [[pref objectForKey:@"initRemotePort"] intValue];
     int localPort		= [[pref objectForKey:@"initLocalPort"] intValue];
-    
-
-    [NATPMP getPublicIp];
-    
+        
     ipList = [NSMutableArray new];
     [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
     
@@ -99,7 +96,7 @@ volatile int32_t searchingThreadCount = 0;
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
                            withIPTable:_peersTable
-                       localConnection:TRUE];
+                       localConnection:FALSE];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
                                      target:client

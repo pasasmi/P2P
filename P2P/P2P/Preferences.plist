@@ -5,10 +5,10 @@
 	<key>downloadPath</key>
 	<string>~/Downloads/</string>
 	<key>initRemoteIP</key>
-	<string>123</string>
+	<string>80.38.220.149</string>
 	<key>initRemotePort</key>
-	<string>oisdjf </string>
+	<string>8888</string>
 	<key>initLocalPort</key>
-	<string>lds jn</string>
+	<string>6666</string>
 </dict>
 </plist>
