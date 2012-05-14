@@ -79,6 +79,8 @@ int downloadsInProgress = 0;
     
 }
 
+NSString *externalIP;
+
 -(void)requestIPListWithIP:(NSString *)ip withPort:(int)port{
     
     NSInputStream *in;
@@ -96,8 +98,12 @@ int downloadsInProgress = 0;
     uint8_t buff[128];
     
     NSString *localDir;
-    if (!local)
-        localDir = [NATPMP getPublicIp];
+    if (!local){
+        if (externalIP == nil)
+            externalIP = [NATPMP getPublicIp]; 
+            
+        localDir = externalIP;
+    } 
     else
         localDir = [Connection getLocalIp];
     
