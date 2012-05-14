@@ -30,7 +30,7 @@
 #import <netdb.h> //server info
 
 #define CHUNKSIZE 512
-#define CONNECTION_ATTEMPTS 100
+#define CONNECTION_ATTEMPTS 1000
 
 @implementation Client
 
