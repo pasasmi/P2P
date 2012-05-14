@@ -112,7 +112,12 @@ NSString *externalIP;
     
     [localDir getCString:(char*)&buff[0] maxLength:128 encoding:NSStringEncodingConversionAllowLossy];
     
-    while ([in streamStatus] == NSStreamStatusOpening) NSLog(@"try to connect in get ip list");
+	int aux = 0;
+    while ([in streamStatus] == NSStreamStatusOpening)
+	{
+		NSLog(@"try to connect in get ip list");
+		if(++aux > CONNECTION_ATTEMPTS) return;
+	}
     
     [out write:buff maxLength:[localDir length]];
     
