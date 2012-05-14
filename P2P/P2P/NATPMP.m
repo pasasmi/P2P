@@ -66,7 +66,7 @@
         printf("An error occured while receiving data... Program is terminating. "); 
 		
     }
-    
+
     int *dir = (int*)&msgR[8];
     
     return [Connection intIPToNSString:*dir];
