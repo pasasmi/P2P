@@ -206,6 +206,7 @@ NSTimer *updatingDownlaodInfo;
 		NSLog(@"trying to connect in download file");
 		if(++count > CONNECTION_ATTEMPTS)return;
 	}
+
     
     [Connection sendNSString:[file.filePath stringByAppendingString:@"\n"] toOutputStream:out];
     
