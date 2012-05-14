@@ -67,9 +67,8 @@
 }
 
 +(BOOL)addPeer:(Peer*)peer toArray:(NSMutableArray*)array {
-    
+	
     Peer *find = [self findPeerWithIp:peer.ip inArrary:array];
-    NSLog(@"added ip");
     if (find == nil) {
         [array addObject:peer];
         return true;
