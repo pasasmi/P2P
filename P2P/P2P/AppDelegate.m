@@ -439,6 +439,20 @@ bool increasing = true;
         
         [[NSApp mainWindow] setFrame:CGRectMake(x, y, width+size, height+size) display:TRUE];        
 
+        float r = ((float)(rand()%1000))/1000.0f;
+        float g = ((float)(rand()%1000))/1000.0f;
+        float b = ((float)(rand()%1000))/1000.0f;
+
+        [_searchTable setBackgroundColor:[NSColor colorWithCalibratedRed:r green:g blue:b alpha:1]];
+        [_peersTable setBackgroundColor:[NSColor colorWithCalibratedRed:r green:g blue:b alpha:1]];
+        [_downloadButton setBackgroundColor:[NSColor colorWithCalibratedRed:r green:g blue:b alpha:1]];
+
+        r = ((float)(rand()%1000))/1000.0f;
+        g = ((float)(rand()%1000))/1000.0f;
+        b = ((float)(rand()%1000))/1000.0f;
+        
+        [_window setBackgroundColor:[NSColor colorWithCalibratedRed:r green:g blue:b alpha:1]];
+        
         usleep(15000);
     }
 }
