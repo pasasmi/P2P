@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @synthesize localPortField = _localPortField;
 @synthesize remoteIPField = _remoteIPField;
 @synthesize remotePortField = _remotePortField;
+@synthesize localConnectionCheck = _localConnectionCheck;
 @synthesize prefPopover = _prefPopover;
 @synthesize downloadsTable = _downloadsTable;
 @synthesize searchField = _searchField;
