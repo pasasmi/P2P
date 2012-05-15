@@ -10,5 +10,7 @@
 	<string>8888</string>
 	<key>initLocalPort</key>
 	<string>6666</string>
+	<key>localConnection</key>
+	<string>1</string>
 </dict>
 </plist>

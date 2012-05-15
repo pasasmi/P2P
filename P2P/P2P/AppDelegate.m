@@ -84,7 +84,10 @@ volatile int32_t searchingThreadCount = 0;
     NSString *remoteIp	= [pref objectForKey:@"initRemoteIP"];
     int remotePort		= [[pref objectForKey:@"initRemotePort"] intValue];
     int localPort		= [[pref objectForKey:@"initLocalPort"] intValue];
-        
+    BOOL localConnection = [[pref objectForKey:@"localConnection"] boolValue];    
+    
+    [_localConnectionCheck setState:localConnection];
+    
     ipList = [NSMutableArray new];
     [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
     
@@ -184,6 +187,9 @@ volatile int32_t searchingThreadCount = 0;
     else if (![(NSString*)[pref objectForKey:@"initRemotePort"] compare:_remotePortField.title] == NSOrderedSame){
         [Peer findPeerWithIp:_remoteIPField.title inArrary:ipList].port = [_remotePortField.title intValue];
     }
+    else if ((BOOL)[[pref objectForKey:@"localConnection"] boolValue] != _localConnectionCheck.state){
+        client.local = _localConnectionCheck.state;
+    }
     if (![(NSString*)[pref objectForKey:@"initLocalPort"] compare:_localPortField.title] == NSOrderedSame){
         server.localPort = [_localPortField.title intValue];
         [server restartServer];
@@ -193,6 +199,7 @@ volatile int32_t searchingThreadCount = 0;
     [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];
     [pref setValue:_remotePortField.title forKey:@"initRemotePort"];
     [pref setValue:_localPortField.title forKey:@"initLocalPort"];
+    [pref setValue:[NSString stringWithFormat:@"%d",[_localConnectionCheck state]] forKey:@"localConnection"];
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];

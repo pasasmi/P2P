@@ -81,6 +81,7 @@ int downloadsInProgress = 0;
 }
 
 NSString *externalIP;
+NSString *localIP;
 
 -(void)requestIPListWithIP:(NSString *)ip withPort:(int)port{
     
@@ -105,8 +106,12 @@ NSString *externalIP;
             
         localDir = externalIP;
     } 
-    else
-        localDir = [Connection getLocalIp];
+    else {
+        if (localIP == nil)
+            localIP = [Connection getLocalIp];
+            
+        localDir = localIP;
+    }
     
     localDir = [localDir stringByAppendingFormat:@":%d\n",localPort];
     
