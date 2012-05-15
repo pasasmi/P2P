@@ -24,6 +24,7 @@
 		5F7943CA1556F93D0029732E /* P2PTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943C91556F93D0029732E /* P2PTests.m */; };
 		5F7943D51556FA430029732E /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943D41556FA430029732E /* Connection.m */; };
 		5F8DBF541557BF0800F760F7 /* libServerSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DBF531557BF0800F760F7 /* libServerSocket.m */; };
+		5F9E20D21562C9A2004ADFB2 /* magic.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F9E20D11562C9A2004ADFB2 /* magic.png */; };
 		5FA0E0FE155AB57C00D8EAD6 /* NATPMP.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */; };
 		5FC1B52F155BCA9000D74673 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FC1B52E155BCA9000D74673 /* Preferences.plist */; };
 		B57FE151155D49370006C755 /* P2Picon.icns in Resources */ = {isa = PBXBuildFile; fileRef = B57FE14B155D48EE0006C755 /* P2Picon.icns */; };
@@ -73,6 +74,7 @@
 		5F7943D41556FA430029732E /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		5F8DBF521557BF0800F760F7 /* libServerSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libServerSocket.h; sourceTree = "<group>"; };
 		5F8DBF531557BF0800F760F7 /* libServerSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = libServerSocket.m; sourceTree = "<group>"; };
+		5F9E20D11562C9A2004ADFB2 /* magic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic.png; sourceTree = "<group>"; };
 		5FA0E0FC155AB57C00D8EAD6 /* NATPMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NATPMP.h; sourceTree = "<group>"; };
 		5FA0E0FD155AB57C00D8EAD6 /* NATPMP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NATPMP.m; sourceTree = "<group>"; };
 		5FC1B52E155BCA9000D74673 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preferences.plist; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		5F7943A61556F93C0029732E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F9E20D11562C9A2004ADFB2 /* magic.png */,
 				5F4D31BF1562A13C00A820A5 /* sound.mp3 */,
 				B5C6831F155D74F100108182 /* LICENSE.txt */,
 				B57FE14B155D48EE0006C755 /* P2Picon.icns */,
@@ -285,6 +288,7 @@
 				B57FE151155D49370006C755 /* P2Picon.icns in Resources */,
 				B5C68320155D74F100108182 /* LICENSE.txt in Resources */,
 				5F4D31C01562A13C00A820A5 /* sound.mp3 in Resources */,
+				5F9E20D21562C9A2004ADFB2 /* magic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
