@@ -243,7 +243,6 @@
 							<string key="NSFrame">{{13, 32}, {596, 372}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="715118734"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="61764219">
@@ -839,7 +838,7 @@
 																<string key="NSFrameSize">{540, 288}</string>
 																<reference key="NSSuperview" ref="817082687"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="289163574"/>
+																<reference key="NSNextKeyView" ref="730698031"/>
 																<string key="NSReuseIdentifierKey">_NS:13</string>
 																<bool key="NSEnabled">YES</bool>
 																<object class="NSTableHeaderView" key="NSHeaderView" id="954273448">
@@ -986,7 +985,7 @@
 												<string key="NSFrame">{{17, 17}, {542, 306}}</string>
 												<reference key="NSSuperview" ref="715118734"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="730698031"/>
+												<reference key="NSNextKeyView" ref="817082687"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<int key="NSsFlags">133682</int>
 												<reference key="NSVScroller" ref="289163574"/>
@@ -1048,7 +1047,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="819701594"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{622, 432}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
@@ -1080,6 +1079,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 20}, {410, 11}}</string>
 						<reference key="NSSuperview" ref="926853208"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSAntiCompressionPriority">{250, 750}</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1103,6 +1103,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 43}, {463, 17}}</string>
 						<reference key="NSSuperview" ref="926853208"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="930957007"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -1122,6 +1123,7 @@ b2NoLCBQYXUgU2FzdHJlIE1pZ3VlbA</string>
 				</array>
 				<string key="NSFrameSize">{497, 80}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="567698416"/>
 				<string key="NSReuseIdentifierKey">_NS:20</string>
 			</object>
@@ -1225,7 +1227,6 @@ b2NoLCBQYXUgU2FzdHJlIE1pZ3VlbA</string>
 										<string key="NSFrame">{{192, 19}, {150, 22}}</string>
 										<reference key="NSSuperview" ref="1033072218"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="781236833">
@@ -1584,30 +1585,6 @@ b2NoLCBQYXUgU2FzdHJlIE1pZ3VlbA</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">localPortField</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="1008896330"/>
-					</object>
-					<int key="connectionID">1425</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">remoteIPField</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="262206578"/>
-					</object>
-					<int key="connectionID">1426</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">remotePortField</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="781236833"/>
-					</object>
-					<int key="connectionID">1497</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">searchField</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="841300419"/>
@@ -1653,6 +1630,30 @@ b2NoLCBQYXUgU2FzdHJlIE1pZ3VlbA</string>
 						<reference key="destination" ref="523598576"/>
 					</object>
 					<int key="connectionID">1855</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">localPortField</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1008896330"/>
+					</object>
+					<int key="connectionID">1857</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">remotePortField</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="781236833"/>
+					</object>
+					<int key="connectionID">1858</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">remoteIPField</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="262206578"/>
+					</object>
+					<int key="connectionID">1859</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4265,7 +4266,7 @@ b2NoLCBQYXUgU2FzdHJlIE1pZ3VlbA</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1855</int>
+			<int key="maxID">1859</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

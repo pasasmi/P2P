@@ -7,10 +7,10 @@
 	<key>initRemoteIP</key>
 	<string>80.38.220.149</string>
 	<key>initRemotePort</key>
-	<integer>8888</integer>
+	<string>8888</string>
 	<key>initLocalPort</key>
-	<integer>6666</integer>
+	<string>6666</string>
 	<key>localConnection</key>
-	<true/>
+	<string>1</string>
 </dict>
 </plist>
