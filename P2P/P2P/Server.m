@@ -36,17 +36,19 @@
 @synthesize localPort;
 @synthesize ipList;
 @synthesize path;
+@synthesize local;
 
 
 NSThread *threads[3];
 
-+(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path {
++(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path localConnection:(BOOL)local{
     
     Server *server  = [Server new];
     server.ipList = list;
     server.localPort = port;
     server.path = path;
-   
+    server.local = local;
+    
     return server;
     
 }
@@ -140,7 +142,7 @@ int peerSocket;
         [Connection sendNSString:[[ipList objectAtIndex:i] stringFormat] toSocket:[socket intValue]];
     }
     
-    [Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList];
+    [Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList local:local];
     
     close([socket intValue]);
 }

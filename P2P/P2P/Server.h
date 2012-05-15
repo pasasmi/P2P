@@ -24,7 +24,7 @@
     int localPort;
     NSMutableArray *ipList;
     NSString *path;
-
+    BOOL local;
     
 }
 
@@ -32,7 +32,7 @@
 -(void)startDownloadServer;
 -(void)startQueryServer;
 
-+(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path;
++(Server*)newServerWithPort:(int)port andIpList:(NSMutableArray*)list withPath:(NSString*)path localConnection:(BOOL)local;
 -(void)restartServer;
 -(void)startServer;
 -(void)stopServers;
@@ -40,6 +40,7 @@
 @property int localPort;
 @property NSMutableArray* ipList;
 @property NSString* path;
+@property BOOL local;
 
 
 @end

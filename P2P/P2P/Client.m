@@ -162,7 +162,7 @@ NSString *localIP;
         
         portTmp[count-startPortNumber]= '\0';
         
-        if ([Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList]) 
+        if ([Peer addPeer:[Peer newPeerFromCArray:ipTmp port:portTmp] toArray:ipList local:local]) 
             [peersTable reloadData];
         
         tmp = 0;

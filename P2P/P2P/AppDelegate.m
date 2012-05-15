@@ -93,11 +93,12 @@ volatile int32_t searchingThreadCount = 0;
     else [_ipLabel setStringValue:[NATPMP getPublicIp]];
     
     ipList = [NSMutableArray new];
-    [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
+    [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList local:localConnection];
     
     server = [Server newServerWithPort:localPort 
                              andIpList:ipList 
-                              withPath:localPath];
+                              withPath:localPath
+                       localConnection:localConnection];
     
     client = [Client newClientWithPort:localPort 
                              andIpList:ipList 
@@ -191,6 +192,7 @@ volatile int32_t searchingThreadCount = 0;
     }
     else if ((BOOL)[[pref objectForKey:@"localConnection"] boolValue] != _localConnectionCheck.state){
         client.local = _localConnectionCheck.state;
+        server.local = _localConnectionCheck.state;
     }
     if (![(NSString*)[pref objectForKey:@"initLocalPort"] compare:_localPortField.title] == NSOrderedSame){
         server.localPort = [_localPortField.title intValue];
