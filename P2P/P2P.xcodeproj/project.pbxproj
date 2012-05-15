@@ -11,6 +11,7 @@
 		5F26FD38155729B400107E86 /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F26FD37155729B400107E86 /* Peer.m */; };
 		5F40C2AF155A59C4009B0F73 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F40C2AE155A59C4009B0F73 /* Server.m */; };
 		5F40C2B3155A5A05009B0F73 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F40C2B2155A5A05009B0F73 /* Client.m */; };
+		5F4D31C01562A13C00A820A5 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D31BF1562A13C00A820A5 /* sound.mp3 */; };
 		5F7943A01556F93C0029732E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F79439F1556F93C0029732E /* Cocoa.framework */; };
 		5F7943AA1556F93C0029732E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F7943A81556F93C0029732E /* InfoPlist.strings */; };
 		5F7943AC1556F93C0029732E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F7943AB1556F93C0029732E /* main.m */; };
@@ -48,6 +49,7 @@
 		5F40C2AE155A59C4009B0F73 /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
 		5F40C2B1155A5A05009B0F73 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		5F40C2B2155A5A05009B0F73 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		5F4D31BF1562A13C00A820A5 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
 		5F79439B1556F93C0029732E /* P2P.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P2P.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F79439F1556F93C0029732E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5F7943A21556F93C0029732E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -153,6 +155,7 @@
 		5F7943A61556F93C0029732E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F4D31BF1562A13C00A820A5 /* sound.mp3 */,
 				B5C6831F155D74F100108182 /* LICENSE.txt */,
 				B57FE14B155D48EE0006C755 /* P2Picon.icns */,
 				5F7943A71556F93C0029732E /* P2P-Info.plist */,
@@ -281,6 +284,7 @@
 				5FC1B52F155BCA9000D74673 /* Preferences.plist in Resources */,
 				B57FE151155D49370006C755 /* P2Picon.icns in Resources */,
 				B5C68320155D74F100108182 /* LICENSE.txt in Resources */,
+				5F4D31C01562A13C00A820A5 /* sound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

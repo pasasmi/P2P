@@ -50,6 +50,8 @@
 - (IBAction)prefPopupClick:(id)sender;
 - (IBAction)chooseDownloadsFolder:(id)sender;
 
+@property (weak) IBOutlet NSTextField *ipLabel;
+
 
 //about window
 @property (weak) IBOutlet NSView *about;
@@ -57,6 +59,9 @@
 
 //Peers tab
 @property (weak) IBOutlet NSTableView *peersTable;
+
+//magic
+- (IBAction)magicButton:(id)sender;
 
 
 @end

@@ -1,23 +1,23 @@
 /*
-P2P is an academical application. It is a peer to peer fileshareing program.
+ P2P is an academical application. It is a peer to peer fileshareing program.
  
  Copyright (C) 2012	Jordi Bueno Dominguez, Jordi Chulia Benlloch, Pau Sastre Miguel
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
  
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
  
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 #import "AppDelegate.h"
 #import "Connection.h"
 #import "Peer.h"
@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #import <libkern/OSAtomic.h>
 
 @implementation AppDelegate
+@synthesize ipLabel = _ipLabel;
 
 @synthesize peersTable = _peersTable;
 @synthesize folderDownloadsPath = _folderDownloadsPath;
@@ -88,6 +89,9 @@ volatile int32_t searchingThreadCount = 0;
     
     [_localConnectionCheck setState:localConnection];
     
+    if (localConnection) [_ipLabel setStringValue:[Connection getLocalIp]];
+    else [_ipLabel setStringValue:[NATPMP getPublicIp]];
+    
     ipList = [NSMutableArray new];
     [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
     
@@ -102,16 +106,14 @@ volatile int32_t searchingThreadCount = 0;
                            withIPTable:_peersTable
                        localConnection:localConnection];
     
-    [NSTimer scheduledTimerWithTimeInterval:10.0 
-                                     target:client
-                                   selector:@selector(updateIPList) 
-                                   userInfo:nil 
-                                    repeats:YES];
+    [NSThread detachNewThreadSelector:@selector(updateIPList) toTarget:client withObject:nil];
     
     [self setPreferencesVariables];
     
     //the three threads of the server
     [server startServer];
+    
+    
 	
 }
 
@@ -207,6 +209,10 @@ volatile int32_t searchingThreadCount = 0;
     [pref writeToFile:path atomically:YES];
     
     [_prefPopover close];
+    
+    if ([_localConnectionCheck state]) [_ipLabel setStringValue:[Connection getLocalIp]];
+    else [_ipLabel setStringValue:[NATPMP getPublicIp]];
+    
 }
 
 - (void)windowWillMove:(NSNotification *)notification
@@ -224,7 +230,7 @@ volatile int32_t searchingThreadCount = 0;
 		[warning setMessageText:@"WARNING: There are still ongoing downloads"];
 		[warning setInformativeText:@"Ongoing downloads will be lost."];
 		[warning setAlertStyle:NSWarningAlertStyle];
-
+        
 		if([warning runModal] == NSAlertFirstButtonReturn) {
             [server stopServers];
             return NSTerminateNow;
@@ -311,7 +317,7 @@ volatile int32_t searchingThreadCount = 0;
         if ([((NSCell*)(aTableColumn.headerCell)).title compare:@"Name"] == NSOrderedSame){
             [cell setTitle:[files objectAtIndex:rowIndex]];
         }
-
+        
         return cell;
     }
     return  NULL;
@@ -354,12 +360,90 @@ volatile int32_t searchingThreadCount = 0;
 }
 
 
+/// magic stuff
 
+int dir = 0;
+int WIDTH,HEIGHT;
+int size = 0;
+bool increasing = true;
 
+-(void)startBouncing {
+    
+    WIDTH = [[[NSScreen screens] objectAtIndex:0] visibleFrame].size.width;
+    HEIGHT = [[[NSScreen screens] objectAtIndex:0] visibleFrame].size.height;
+    
+    [NSThread detachNewThreadSelector:@selector(bounce) toTarget:self withObject:nil];
+    
+    NSSound *sound = [NSSound soundNamed:@"sound.mp3"];
+    [sound setLoops:YES];
+    [sound play];
+    
+}
 
+-(void)bounce {
+    
+    while (true){
+        float x = [[NSApp mainWindow] frame].origin.x;
+        float y = [[NSApp mainWindow] frame].origin.y;
+        float width = [[NSApp mainWindow] frame].size.width;
+        float height = [[NSApp mainWindow] frame].size.height;
+        
+        if (x+width > WIDTH && dir == 0) 
+            dir = 1;
+        else if (x+width > WIDTH && dir == 3) 
+            dir = 2;
+        else if (x+width < width && dir == 1) 
+            dir = 0;
+        else if (x+width < width && dir == 2) 
+            dir = 3;
+        else if (y+height > HEIGHT && dir == 0) 
+            dir = 3;
+        else if (y+height > HEIGHT && dir == 1) 
+            dir = 2;
+        else if (y+height < height && dir == 2) 
+            dir = 1;
+        else if (y+height < height && dir == 3) 
+            dir = 0;
+        
+        switch (dir) {
+            case 0:
+                x +=5;
+                y +=5;
+                break;
+            case 1:
+                x -=5;
+                y +=5;
+                break;
+            case 2:
+                x -=5;
+                y -=5;
+                break;
+            case 3:
+                x +=5;
+                y -=5;
+                break;
+        }
+        
+        if (size > 20 && increasing) {
+            size = 0;
+            increasing = false;
+        }
+        else if (size < -20 && !increasing) {
+            size = 0;
+            increasing = true;
+        }
+        
+        size += (increasing)?3:-3;
+        
+        [[NSApp mainWindow] setFrame:CGRectMake(x, y, width+size, height+size) display:TRUE];        
 
+        usleep(15000);
+    }
+}
 
-
+- (IBAction)magicButton:(id)sender {
+    [self startBouncing];
+}
 
 
 

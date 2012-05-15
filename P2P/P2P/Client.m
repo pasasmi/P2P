@@ -69,8 +69,12 @@ int downloadsInProgress = 0;
 
 -(void)updateIPList {
     
-    [self requestIPListWithIP:((Peer*)[ipList objectAtIndex:0]).ip];
-    [ipList exchangeObjectAtIndex:0 withObjectAtIndex:[ipList count]-1];
+    while (true) {
+        [self requestIPListWithIP:((Peer*)[ipList objectAtIndex:0]).ip];
+        [ipList exchangeObjectAtIndex:0 withObjectAtIndex:[ipList count]-1];
+        
+        usleep(10000000);//sleep 10 seconds
+    }
     
 }
 
@@ -103,13 +107,13 @@ NSString *localIP;
     if (!local){
         if (externalIP == nil)
             externalIP = [NATPMP getPublicIp]; 
-            
+        
         localDir = externalIP;
     } 
     else {
         if (localIP == nil)
             localIP = [Connection getLocalIp];
-            
+        
         localDir = localIP;
     }
     
@@ -224,7 +228,7 @@ NSTimer *updatingDownlaodInfo;
             return;
         } 
 	}
-
+    
     
     [Connection sendNSString:[file.filePath stringByAppendingString:@"\n"] toOutputStream:out];
     
@@ -279,12 +283,12 @@ NSTimer *updatingDownlaodInfo;
         [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d",downloadsInProgress]];
     
     [downloadTable reloadData];
-    [self bounce];
+    [self shake];
 }
 
--(void)bounce {
+-(void)shake {
     
-    NSLog(@"bouncing");
+    NSLog(@"shaking");
     
     CGPoint cen = [[NSApp mainWindow] frame].origin;
     
