@@ -83,7 +83,8 @@ volatile int32_t searchingThreadCount = 0;
     NSString *remoteIp	= [pref objectForKey:@"initRemoteIP"];
     int remotePort		= [[pref objectForKey:@"initRemotePort"] intValue];
     int localPort		= [[pref objectForKey:@"initLocalPort"] intValue];
-        
+    BOOL localConnection = [[pref objectForKey:@"localConnection"] boolValue];    
+    
     ipList = [NSMutableArray new];
     [Peer addPeer:[Peer newPeerWithIp:remoteIp port:remotePort] toArray:ipList];
     
@@ -96,7 +97,7 @@ volatile int32_t searchingThreadCount = 0;
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
                            withIPTable:_peersTable
-                       localConnection:FALSE];
+                       localConnection:localConnection];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
                                      target:client
@@ -192,6 +193,7 @@ volatile int32_t searchingThreadCount = 0;
     [pref setValue:_remoteIPField.title forKey:@"initRemoteIP"];
     [pref setValue:_remotePortField.title forKey:@"initRemotePort"];
     [pref setValue:_localPortField.title forKey:@"initLocalPort"];
+    [pref setValue:_localPortField.title forKey:@"localConnection"];
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     path = [path stringByAppendingPathComponent:@"Contents/Resources/Preferences.plist"];
