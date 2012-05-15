@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @synthesize localPortField = _localPortField;
 @synthesize remoteIPField = _remoteIPField;
 @synthesize remotePortField = _remotePortField;
+@synthesize localConnectionCheck = _localConnectionCheck;
 @synthesize prefPopover = _prefPopover;
 @synthesize downloadsTable = _downloadsTable;
 @synthesize searchField = _searchField;
@@ -96,7 +97,7 @@ volatile int32_t searchingThreadCount = 0;
                               withPath:localPath 
                      withDownloadTable:_downloadsTable 
                            withIPTable:_peersTable
-                       localConnection:FALSE];
+                       localConnection:TRUE];
     
     [NSTimer scheduledTimerWithTimeInterval:10.0 
                                      target:client

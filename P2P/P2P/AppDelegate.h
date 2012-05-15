@@ -44,6 +44,7 @@
 @property (weak) IBOutlet NSTextFieldCell *localPortField;
 @property (weak) IBOutlet NSTextFieldCell *remoteIPField;
 @property (weak) IBOutlet NSTextFieldCell *remotePortField;
+@property (weak) IBOutlet NSButton *localConnectionCheck;
 
 
 - (IBAction)prefPopupClick:(id)sender;
